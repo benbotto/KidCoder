@@ -1,5 +1,11 @@
 <bsy-kk-game game="game"></bsy-kk-game>
-<button ng-click="game.start()">Play</button>
-<button ng-click="game.pause()">Pause</button>
 
-<button ng-click="game.gameWorld.getGameWorldObject('worm').setHeading('left')">Left</button>
+<div class="game-controls">
+  <button ng-click="game.start()">Play</button>
+  <button ng-click="game.pause()">Pause</button>
+
+  <button ng-click="game.gameWorld.getGameWorldObject('worm').setHeading('left')">Left</button>
+  <button ng-click="game.gameWorld.getGameWorldObject('worm').setHeading('up')">Up</button>
+  <button ng-click="game.gameWorld.getGameWorldObject('worm').setHeading('down')">Down</button>
+  <button ng-click="game.gameWorld.getGameWorldObject('worm').setHeading('right')">Right</button>
+</div>

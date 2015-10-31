@@ -1,0 +1,10 @@
+canvas
+{
+  border: 1px solid black;
+}
+
+.game-controls
+{
+  display: inline-block;
+  vertical-align: top;
+}
