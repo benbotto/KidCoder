@@ -1,0 +1,12 @@
+.board
+{
+  font-size: 0;
+}
+
+.col
+{
+  border: 1px solid black;
+  width: 40px;
+  height: 40px;
+  display: inline-block;
+}

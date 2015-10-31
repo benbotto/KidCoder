@@ -1,4 +1,4 @@
-angular.module('KidCoder', ['ngRoute'])
+angular.module('bsyKidCoder', ['ngRoute'])
 
 /**
  * Configure the routing.
@@ -18,3 +18,4 @@ angular.module('KidCoder', ['ngRoute'])
       redirectTo: '/'
     });
 }]);
+

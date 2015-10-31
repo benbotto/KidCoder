@@ -6,14 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Kid Coder</title>
 
-    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- build:css css/KidCoder.min.css -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="codeGame/board.css">
+    <!-- endbuild -->
   </head>
 
-  <body ng-app="KidCoder">
+  <body ng-app="bsyKidCoder">
     <div ng-view autoscroll></div>
+
+    <!-- build:js js/lib.min.js -->
     <script src="bower_components/angular/angular.min.js"></script>
     <script src="bower_components/angular-route/angular-route.min.js"></script>
-    <script src="KidCoder.js"></script>
+    <!-- endbuild -->
+
+    <!-- build:js js/kidCoder.min.js -->
+    <script src="kidCoder.js"></script>
     <script src="codeGame/CodeGameCtrl.js"></script>
+    <!-- endbuild -->
   </body>
 </html>

@@ -1,9 +1,11 @@
-angular.module('KidCoder')
+angular.module('bsyKidCoder')
 
 /**
  * Controller for the code game.
  */
-.controller('CodeGameCtrl', ['$scope', function($scope)
+.controller('CodeGameCtrl',
+['$scope',
+function($scope)
 {
   'use strict';
 

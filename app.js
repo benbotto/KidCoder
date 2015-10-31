@@ -6,7 +6,17 @@ var app     = express();
 
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
-app.use(express.static(path.join(__dirname, 'public')));
+
+if (app.get('env') === 'development')
+{
+  console.log('Running in dev mode.');
+  app.use(express.static(path.join(__dirname, 'public')));
+}
+else
+{
+  console.log('Running in production mode.');
+  app.use(express.static(path.join(__dirname, 'build')));
+}
 
 // Handle 404s.
 app.use(function(req, res, next)
