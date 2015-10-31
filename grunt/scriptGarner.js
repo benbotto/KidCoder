@@ -19,7 +19,7 @@ module.exports = function(verbose)
   
   // All the scripts that make up the app.  Note that the module declarations
   // must come first.
-  scripts.app = ['public/KidCoder.js']
+  scripts.app = ['public/kidCoder.js']
     .concat(glob.sync('public/**/*.js', opts)
     .filter(function(script)
     {
