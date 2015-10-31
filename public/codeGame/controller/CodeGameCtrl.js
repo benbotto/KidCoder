@@ -4,12 +4,13 @@ angular.module('bsyKidCoder')
  * Controller for the code game.  This is the entry point for the game.
  */
 .controller('CodeGameCtrl',
-['$scope', '$window', 'Game', 'GameWorld',
-function($scope, $window, Game, GameWorld)
+['$scope', '$window', 'Game', 'GameWorld', 'Worm',
+function($scope, $window, Game, GameWorld, Worm)
 {
   'use strict';
 
   $scope.game = new Game(new GameWorld());
+  $scope.game.gameWorld.addGameWorldObject(new Worm());
 
   function tick(elapsed)
   {

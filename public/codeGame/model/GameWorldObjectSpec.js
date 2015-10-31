@@ -10,11 +10,14 @@ describe('GameWorldObject test suite.', function()
     GameWorldObject = _GameWorldObject_;
   }));
 
-  // Checks the name.
-  it('checks the name.', function()
+  // Checks the defaults.
+  it('checks the defaults.', function()
   {
     var gwo = new GameWorldObject('worm');
     expect(gwo.name).toBe('worm');
+    expect(gwo.color).toBe('red');
+    expect(gwo.width).toBe(10);
+    expect(gwo.height).toBe(10);
 
     expect(function()
     {

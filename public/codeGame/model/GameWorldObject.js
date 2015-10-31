@@ -12,10 +12,16 @@ function()
   /**
    * Initialize the object.
    * @param name The name of the object.
+   * @param color The color of the object (defaults to red).
+   * @param width The width of the object (defaults to 10).
+   * @param height The height of the object (defaults to 10).
    */
-  function GameWorldObject(name)
+  function GameWorldObject(name, color, width, height)
   {
     this.name      = name;
+    this.color     = color  || 'red';
+    this.width     = width  || 10;
+    this.height    = height || 10;
     this._location = {x: 0, y:0};
 
     if (name === undefined)
@@ -59,7 +65,7 @@ function()
    * subclasses.
    * @param elapsed The elapsed time since the last update, in ms.
    */
-  GameWorldObject.prototype.tick = function(elapsed)
+  GameWorldObject.prototype.tick = function(/*elapsed*/)
   {
     return this;
   };

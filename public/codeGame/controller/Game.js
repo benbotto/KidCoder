@@ -24,7 +24,6 @@ function()
   function Game(gameWorld)
   {
     this.gameWorld  = gameWorld;
-    this.speed      = 20; // In units per second.
     this._gameState = Game.GAME_STATE.PAUSED;
     this._elapsed   = 0;
   }
@@ -71,11 +70,13 @@ function()
 
   /**
    * Tick the game.
-   * @param elapsed The elapsed time, in ms, since the last tick.
+   * @param elapsed The total elapsed time, in ms.
    */
   Game.prototype.tick = function(elapsed)
   {
-    this._elapsed += elapsed;
+    if (this.getState() === 'playing')
+      this.gameWorld.tick(elapsed - this._elapsed);
+    this._elapsed = elapsed;
   };
 
   return Game;

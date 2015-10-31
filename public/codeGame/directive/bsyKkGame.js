@@ -25,7 +25,7 @@ angular.module('bsyKidCoder')
       // This is the canvas context, used for drawing.
       var ctx = canvas.getContext('2d');
 
-      function render(time)
+      function render()
       {
         // Reset the canvas's transform to identity.  This must happen
         // before clearing the canvas, otherwise the clear will be transformed
@@ -35,22 +35,19 @@ angular.module('bsyKidCoder')
         // Clear the canvas.
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // The movement amount is based on time.
-        /*var speed = scope.game.speed / 1000;
-        var xDist = time * speed;
-        var yDist = time * speed;
+        scope.game.gameWorld.getGameWorldObjects().forEach(function(gwo)
+        {
+          var loc = gwo.getLocation();
 
-        ctx.translate(xDist, yDist);
-        ctx.fillStyle = 'green';
-        ctx.fillRect(0, 0, 10, 10);*/
-
-        //console.log(Math.floor(time / 1000), Math.floor(xDist), Math.floor(yDist));
+          ctx.setTransform(1, 0, 0, 1, 0, 0);
+          ctx.translate(loc.x, loc.y);
+          ctx.fillStyle = gwo.color;
+          ctx.fillRect(0, 0, 10, 10);
+        });
       }
 
-      scope.$watch(scope.game.getElapsed.bind(scope.game), function(elapsed)
-      {
-        console.log('render here..', elapsed);
-      });
+      // Every time the game ticks (elapsed time changes) render the world.
+      scope.$watch(scope.game.getElapsed.bind(scope.game), render);
     }
   };
 

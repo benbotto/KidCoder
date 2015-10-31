@@ -15,7 +15,6 @@ describe('Game test suite.', function()
   it('checks the default state of the game.', function()
   {
     expect(game.getState()).toBe('paused');
-    expect(game.speed).toBe(20);
   });
 
   // Starts the game.
@@ -42,11 +41,25 @@ describe('Game test suite.', function()
   // Ticks the game.
   it('ticks the game.', function()
   {
+    spyOn(game.gameWorld, 'tick');
+
+    game.start();
+
     expect(game.getElapsed()).toBe(0);
     game.tick(100);
     expect(game.getElapsed()).toBe(100);
-    game.tick(100);
+    game.tick(200);
     expect(game.getElapsed()).toBe(200);
+
+    expect(game.gameWorld.tick.calls.count()).toBe(2);
+  });
+
+  // Makes sure that the game doesn't tick when not playing.
+  it('makes sure that the game doesn\'t tick when not playing.', function()
+  {
+    spyOn(game.gameWorld, 'tick');
+    game.tick(100);
+    expect(game.gameWorld.tick.calls.count()).toBe(0);
   });
 });
 
