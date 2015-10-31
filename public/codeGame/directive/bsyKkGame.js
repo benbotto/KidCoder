@@ -3,7 +3,9 @@ angular.module('bsyKidCoder')
 /**
  * This directive lays out the board canvas.
  */
-.directive('bsyKkGame', ['$window', function($window)
+.directive('bsyKkGame',
+['$window', 'Rectangle',
+function($window, Rectangle)
 {
   'use strict';
 
@@ -37,12 +39,19 @@ angular.module('bsyKidCoder')
 
         scope.game.gameWorld.getGameWorldObjects().forEach(function(gwo)
         {
-          var loc = gwo.getLocation();
-
-          ctx.setTransform(1, 0, 0, 1, 0, 0);
-          ctx.translate(loc.x, loc.y);
-          ctx.fillStyle = gwo.color;
-          ctx.fillRect(0, 0, 10, 10);
+          gwo.getShapes().forEach(function(shape)
+          {
+            if (shape instanceof Rectangle)
+            {
+              ctx.fillStyle = shape.color;
+              ctx.fillRect(shape.x, shape.y, shape.width, shape.height);
+              ctx.strokeRect(shape.x, shape.y, shape.width, shape.height);
+            }
+            else
+            {
+              throw new Error('Invalid shape.');
+            }
+          });
         });
       }
 

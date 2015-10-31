@@ -18,14 +18,12 @@ function()
    */
   function GameWorldObject(name, color, width, height)
   {
-    this.name      = name;
-    this.color     = color  || 'red';
-    this.width     = width  || 10;
-    this.height    = height || 10;
-    this._location = {x: 0, y:0};
-
     if (name === undefined)
       throw new Error('Name is required.');
+
+    this.name      = name;
+    this._location = {x: 0, y: 0};
+    this._shapes   = [];
   }
 
   /**
@@ -68,6 +66,24 @@ function()
   GameWorldObject.prototype.tick = function(/*elapsed*/)
   {
     return this;
+  };
+
+  /**
+   * Add a Shape to the object.
+   * @param shape The Shape instance to add.
+   */
+  GameWorldObject.prototype.addShape = function(shape)
+  {
+    this._shapes.push(shape);
+    return this;
+  };
+
+  /**
+   * Get the array of shapes.
+   */
+  GameWorldObject.prototype.getShapes = function()
+  {
+    return this._shapes;
   };
 
   return GameWorldObject;

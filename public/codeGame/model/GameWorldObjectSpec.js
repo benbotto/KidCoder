@@ -15,9 +15,6 @@ describe('GameWorldObject test suite.', function()
   {
     var gwo = new GameWorldObject('worm');
     expect(gwo.name).toBe('worm');
-    expect(gwo.color).toBe('red');
-    expect(gwo.width).toBe(10);
-    expect(gwo.height).toBe(10);
 
     expect(function()
     {
@@ -57,6 +54,22 @@ describe('GameWorldObject test suite.', function()
     {
       gwo.tick(100);
     }).not.toThrow();
+  });
+
+  // Adds some shapes to the GameWorldObject.
+  it('adds some shapes to the GameWorldObject.', function()
+  {
+    var gwo = new GameWorldObject('worm');
+    var s1  = {x: 0, y: 1};
+    var s2  = {x: 2, y: 3};
+
+    gwo
+      .addShape(s1)
+      .addShape(s2);
+
+    expect(gwo.getShapes().length).toBe(2);
+    expect(gwo.getShapes()[0]).toBe(s1);
+    expect(gwo.getShapes()[1]).toBe(s2);
   });
 });
 
