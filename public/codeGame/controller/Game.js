@@ -5,8 +5,8 @@ angular.module('bsyKidCoder')
  * (playing, paused, etc.).
  */
 .factory('Game',
-[
-function()
+['GameWorld',
+function(GameWorld)
 {
   'use strict';
 
@@ -19,11 +19,11 @@ function()
 
   /**
    * Initialize the game.
-   * @param gameWorld An instance of a GameWorld.
+   * @param gameWorld An instance of a GameWorld (defaults to new GameWorld()).
    */
   function Game(gameWorld)
   {
-    this.gameWorld  = gameWorld;
+    this.gameWorld  = gameWorld || new GameWorld();
     this._gameState = Game.GAME_STATE.PAUSED;
     this._elapsed   = 0;
   }
