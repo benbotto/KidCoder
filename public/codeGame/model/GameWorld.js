@@ -11,11 +11,13 @@ function()
 
   /**
    * GameWorld.
+   * @param width The width of the world.
+   * @param height The height of the world.
    */
-  function GameWorld()
+  function GameWorld(width, height)
   {
-    this.width             = 500;
-    this.height            = 500;
+    this.width             = width  || 500;
+    this.height            = height || 500;
     this._gameWorldObjects = [];
     this._gwoLookup        = {};
   }

@@ -4,8 +4,8 @@ angular.module('bsyKidCoder')
  * The worm object.
  */
 .factory('Worm',
-['GameWorldObject', 'Rectangle',
-function(GameWorldObject, Rectangle)
+['TICK_TIME', 'BLOCK_SIZE', 'BOARD_WIDTH', 'BOARD_HEIGHT', 'GameWorldObject', 'Rectangle',
+function(TICK_TIME, BLOCK_SIZE, BOARD_WIDTH, BOARD_HEIGHT, GameWorldObject, Rectangle)
 {
   'use strict';
 
@@ -28,17 +28,25 @@ function(GameWorldObject, Rectangle)
   function Worm()
   {
     GameWorldObject.call(this, 'worm');
-    this.setLocation(250, 250);
 
-    this.speed     = 20; // In units per second.
+    // Start somewhere around the middle.
+    var x = BLOCK_SIZE;
+    var y = BLOCK_SIZE;
+    while (x < BOARD_WIDTH  / 2) x += BLOCK_SIZE;
+    while (y < BOARD_HEIGHT / 2) y += BLOCK_SIZE;
+
+    this.setLocation(x, y);
+
+    // Move 1 block size per tick.
+    this.speed     = BLOCK_SIZE / (TICK_TIME / 1000);
     this._heading  = Worm.HEADING.UP;
     this._moveTime = 0;
 
     // The worm is composed of a series of rectangles.
-    this.addShape(new Rectangle(250, 250, 10, 10, 'green'));
-    this.addShape(new Rectangle(250, 260, 10, 10, 'red'));
-    this.addShape(new Rectangle(250, 270, 10, 10, 'red'));
-    this.addShape(new Rectangle(250, 280, 10, 10, 'red'));
+    this.addShape(new Rectangle(x, y + BLOCK_SIZE * 0, BLOCK_SIZE, BLOCK_SIZE, 'green'));
+    this.addShape(new Rectangle(x, y + BLOCK_SIZE * 1, BLOCK_SIZE, BLOCK_SIZE, 'red'));
+    this.addShape(new Rectangle(x, y + BLOCK_SIZE * 2, BLOCK_SIZE, BLOCK_SIZE, 'red'));
+    this.addShape(new Rectangle(x, y + BLOCK_SIZE * 3, BLOCK_SIZE, BLOCK_SIZE, 'red'));
   }
 
   /**
@@ -81,12 +89,12 @@ function(GameWorldObject, Rectangle)
   {
     // Only move 1 per half second.
     this._moveTime += elapsed;
-    if (this._moveTime < 500) return;
+    if (this._moveTime < TICK_TIME) return;
     this._moveTime = 0;
 
     // The speed is in units per second.  Calculate the delta based on
     // the elapsed time.
-    var moveDelta = this.speed / 1000 * 500;
+    var moveDelta = this.speed / 1000 * TICK_TIME;
     var loc       = this.getLocation();
 
     // Move in the correct direction.

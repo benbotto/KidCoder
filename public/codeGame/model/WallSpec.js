@@ -5,6 +5,10 @@ describe('Wall test suite.', function()
   var Wall;
 
   beforeEach(module('bsyKidCoder'));
+  beforeEach(module(function($provide)
+  {
+    $provide.value('BLOCK_SIZE', 10);
+  }));
   beforeEach(inject(function(_Wall_)
   {
     Wall = _Wall_;

@@ -13,10 +13,8 @@ function()
    * Initialize the object.
    * @param name The name of the object.
    * @param color The color of the object (defaults to red).
-   * @param width The width of the object (defaults to 10).
-   * @param height The height of the object (defaults to 10).
    */
-  function GameWorldObject(name, color, width, height)
+  function GameWorldObject(name, color)
   {
     if (name === undefined)
       throw new Error('Name is required.');

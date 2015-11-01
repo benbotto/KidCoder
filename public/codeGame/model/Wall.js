@@ -4,8 +4,8 @@ angular.module('bsyKidCoder')
  * One of the walls of the game.
  */
 .factory('Wall',
-['GameWorldObject', 'Rectangle',
-function(GameWorldObject, Rectangle)
+['BLOCK_SIZE', 'GameWorldObject', 'Rectangle',
+function(BLOCK_SIZE, GameWorldObject, Rectangle)
 {
   'use strict';
 
@@ -31,30 +31,29 @@ function(GameWorldObject, Rectangle)
   {
     GameWorldObject.call(this, loc + '_wall');
 
-    var color   = 'grey';
-    var blkSize = 10;
+    var color = 'grey';
 
     switch (loc)
     {
       case 'top':
         this.setLocation(0, 0);
-        for (var i = 0; i < gameWidth / blkSize; ++i)
-          this.addShape(new Rectangle(i * blkSize, 0, blkSize, blkSize, color));
+        for (var i = 0; i < gameWidth / BLOCK_SIZE; ++i)
+          this.addShape(new Rectangle(i * BLOCK_SIZE, 0, BLOCK_SIZE, BLOCK_SIZE, color));
         break;
       case 'left':
         this.setLocation(0, 0);
-        for (var i = 0; i < gameHeight / blkSize; ++i)
-          this.addShape(new Rectangle(0, i * blkSize, blkSize, blkSize, color));
+        for (var i = 0; i < gameHeight / BLOCK_SIZE; ++i)
+          this.addShape(new Rectangle(0, i * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE, color));
         break;
       case 'bottom':
         this.setLocation(0, gameHeight);
-        for (var i = 0; i < gameHeight / blkSize; ++i)
-          this.addShape(new Rectangle(i * blkSize, gameHeight - blkSize, blkSize, blkSize, color));
+        for (var i = 0; i < gameWidth / BLOCK_SIZE; ++i)
+          this.addShape(new Rectangle(i * BLOCK_SIZE, gameHeight - BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE, color));
         break;
       case 'right':
         this.setLocation(gameWidth, 0);
-        for (var i = 0; i < gameWidth / blkSize; ++i)
-          this.addShape(new Rectangle(gameWidth - blkSize, i * blkSize, blkSize, blkSize, color));
+        for (var i = 0; i < gameHeight / BLOCK_SIZE; ++i)
+          this.addShape(new Rectangle(gameWidth - BLOCK_SIZE, i * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE, color));
         break;
       default:
         throw new Error('Invalid location.');

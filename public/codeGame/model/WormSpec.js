@@ -5,6 +5,13 @@ describe('Worm test suite.', function()
   var worm;
 
   beforeEach(module('bsyKidCoder'));
+  beforeEach(module(function($provide)
+  {
+    $provide.value('TICK_TIME',    500);
+    $provide.value('BLOCK_SIZE',   10);
+    $provide.value('BOARD_WIDTH',  500);
+    $provide.value('BOARD_HEIGHT', 500);
+  }));
   beforeEach(inject(function(Worm)
   {
     worm = new Worm();
