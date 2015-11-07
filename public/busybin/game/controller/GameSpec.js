@@ -4,7 +4,7 @@ describe('Game test suite.', function()
 
   var game;
 
-  beforeEach(module('bsyKidCoder'));
+  beforeEach(module('bsyGame'));
   beforeEach(inject(function(Game, GameWorld)
   {
     var gw = new GameWorld();

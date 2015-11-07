@@ -1,4 +1,4 @@
-angular.module('bsyKidCoder')
+angular.module('bsyGame')
 
 /**
  * A Rectangle class for drawing a rectangle on a canvas.

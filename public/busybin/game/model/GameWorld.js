@@ -1,4 +1,4 @@
-angular.module('bsyKidCoder')
+angular.module('bsyGame')
 
 /**
  * Class that represents the game world.
@@ -16,22 +16,22 @@ function()
    */
   function GameWorld(width, height)
   {
-    this.width             = width  || 500;
-    this.height            = height || 500;
-    this._gameWorldObjects = [];
-    this._gwoLookup        = {};
+    this.width         = width  || 500;
+    this.height        = height || 500;
+    this._worldObjects = [];
+    this._gwoLookup    = {};
   }
 
   /**
    * Add an object to the world.
-   * @param gwo The GameWorldObject to add.
+   * @param gwo The WorldObject to add.
    */
-  GameWorld.prototype.addGameWorldObject = function(gwo)
+  GameWorld.prototype.addWorldObject = function(gwo)
   {
     if (this._gwoLookup[gwo.name] !== undefined)
       throw new Error('"' + gwo.name + '"' + ' is not a unique name.');
 
-    this._gameWorldObjects.push(gwo);
+    this._worldObjects.push(gwo);
     this._gwoLookup[gwo.name] = gwo;
 
     return this;
@@ -41,22 +41,22 @@ function()
    * Remove an object to the world.
    * @param name The name of the object.
    */
-  GameWorld.prototype.removeGameWorldObject = function(name)
+  GameWorld.prototype.removeWorldObject = function(name)
   {
-    var gwo = this.getGameWorldObject(name);
-    var ind = this._gameWorldObjects.indexOf(gwo);
+    var gwo = this.getWorldObject(name);
+    var ind = this._worldObjects.indexOf(gwo);
 
-    this._gameWorldObjects.splice(ind, 1);
+    this._worldObjects.splice(ind, 1);
     delete this._gwoLookup[gwo.name];
 
     return this;
   };
 
   /**
-   * Get a GameWorldObject instance by name.
+   * Get a WorldObject instance by name.
    * @param name The name of the object.
    */
-  GameWorld.prototype.getGameWorldObject = function(name)
+  GameWorld.prototype.getWorldObject = function(name)
   {
     var gwo = this._gwoLookup[name];
 
@@ -67,21 +67,21 @@ function()
   };
 
   /**
-   * Get the array of GameWorldObject instances.
+   * Get the array of WorldObject instances.
    */
-  GameWorld.prototype.getGameWorldObjects = function()
+  GameWorld.prototype.getWorldObjects = function()
   {
-    return this._gameWorldObjects;
+    return this._worldObjects;
   };
 
   /**
-   * Update each GameWorldObject.
+   * Update each WorldObject.
    * @param elapsed The elapsed time since the last update, in ms.
    */
   GameWorld.prototype.tick = function(elapsed)
   {
-    for (var i = 0; i < this._gameWorldObjects.length; ++i)
-      this._gameWorldObjects[i].tick(elapsed);
+    for (var i = 0; i < this._worldObjects.length; ++i)
+      this._worldObjects[i].tick(elapsed);
 
     return this;
   };

@@ -19,14 +19,19 @@ module.exports = function(verbose)
   
   // All the scripts that make up the app.  Note that the module declarations
   // must come first.
-  scripts.app = ['public/kidCoder.js']
-    .concat(glob.sync('public/**/*.js', opts)
-    .filter(function(script)
-    {
-      return !script.match(/bower_components/) &&
-             !script.match(/public\/KidCoder.js/) &&
-             !script.match(/Spec.js$/);
-    }));
+  scripts.app =
+  [
+    'public/busybin/game/busybin-game.js',
+    'public/busybin-kidCoder.js'
+  ]
+  .concat(glob.sync('public/**/*.js', opts)
+  .filter(function(script)
+  {
+    return !script.match(/bower_components/) &&
+           !script.match(/public\/busybin-kidCoder.js/) &&
+           !script.match(/public\/busybin\/game\/busybin-game.js/) &&
+           !script.match(/Spec.js$/);
+  }));
 
   // Grunt tasks.
   scripts.grunt = glob.sync('grunt/**/*.js');

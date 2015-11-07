@@ -22,14 +22,14 @@ function($window, BOARD_WIDTH, BOARD_HEIGHT, Game, GameWorld, Worm, Wall, Fruit)
 
     this._fruitAdded = 0;
 
-    this.gameWorld.addGameWorldObject(new Worm());
-    this.gameWorld.addGameWorldObject(
+    this.gameWorld.addWorldObject(new Worm());
+    this.gameWorld.addWorldObject(
       new Wall(this.gameWorld.width,  this.gameWorld.height, 'top'));
-    this.gameWorld.addGameWorldObject(
+    this.gameWorld.addWorldObject(
       new Wall(this.gameWorld.width,  this.gameWorld.height, 'left'));
-    this.gameWorld.addGameWorldObject(
+    this.gameWorld.addWorldObject(
       new Wall(this.gameWorld.width,  this.gameWorld.height, 'bottom'));
-    this.gameWorld.addGameWorldObject(
+    this.gameWorld.addWorldObject(
       new Wall(this.gameWorld.width,  this.gameWorld.height, 'right'));
   }
 
@@ -45,7 +45,7 @@ function($window, BOARD_WIDTH, BOARD_HEIGHT, Game, GameWorld, Worm, Wall, Fruit)
       if ($window.Math.random() >= .999)
       {
         var name  = 'fruit' + this._fruitAdded++;
-        this.gameWorld.addGameWorldObject(new Fruit(name));
+        this.gameWorld.addWorldObject(new Fruit(name));
       }
     }
 

@@ -4,7 +4,7 @@ describe('GameWorld test suite.', function()
 
   var GameWorld;
 
-  beforeEach(module('bsyKidCoder'));
+  beforeEach(module('bsyGame'));
   beforeEach(inject(function(_GameWorld_)
   {
     GameWorld = _GameWorld_;
@@ -24,14 +24,14 @@ describe('GameWorld test suite.', function()
     var gw   = new GameWorld();
     var worm = {name: 'worm'};
     var dirt = {name: 'dirt'};
-    gw.addGameWorldObject(worm)
-      .addGameWorldObject(dirt);
+    gw.addWorldObject(worm)
+      .addWorldObject(dirt);
 
-    expect(gw.getGameWorldObject('worm')).toBe(worm);
-    expect(gw.getGameWorldObject('dirt')).toBe(dirt);
-    expect(gw.getGameWorldObjects().length).toBe(2);
-    expect(gw.getGameWorldObjects()[0]).toBe(worm);
-    expect(gw.getGameWorldObjects()[1]).toBe(dirt);
+    expect(gw.getWorldObject('worm')).toBe(worm);
+    expect(gw.getWorldObject('dirt')).toBe(dirt);
+    expect(gw.getWorldObjects().length).toBe(2);
+    expect(gw.getWorldObjects()[0]).toBe(worm);
+    expect(gw.getWorldObjects()[1]).toBe(dirt);
   });
 
   // Checks that getting an object that does not exist throws an exception.
@@ -41,7 +41,7 @@ describe('GameWorld test suite.', function()
 
     expect(function()
     {
-      gw.getGameWorldObject('foo');
+      gw.getWorldObject('foo');
     }).toThrowError('"foo" is not a valid name.');
   });
 
@@ -51,11 +51,11 @@ describe('GameWorld test suite.', function()
     var gw   = new GameWorld();
     var worm = {name: 'worm'};
 
-    gw.addGameWorldObject(worm);
+    gw.addWorldObject(worm);
 
     expect(function()
     {
-      gw.addGameWorldObject(worm);
+      gw.addWorldObject(worm);
     }).toThrowError('"worm" is not a unique name.');
   });
 
@@ -69,8 +69,8 @@ describe('GameWorld test suite.', function()
     spyOn(worm, 'tick');
     spyOn(dirt, 'tick');
 
-    gw.addGameWorldObject(worm)
-      .addGameWorldObject(dirt);
+    gw.addWorldObject(worm)
+      .addWorldObject(dirt);
 
     gw.tick(100);
 
@@ -85,17 +85,17 @@ describe('GameWorld test suite.', function()
     var worm = {name: 'worm', tick: function() {}};
     var dirt = {name: 'dirt', tick: function() {}};
 
-    gw.addGameWorldObject(worm)
-      .addGameWorldObject(dirt);
+    gw.addWorldObject(worm)
+      .addWorldObject(dirt);
 
-    gw.removeGameWorldObject('worm');
+    gw.removeWorldObject('worm');
 
     expect(function()
     {
-      gw.getGameWorldObject('worm');
+      gw.getWorldObject('worm');
     }).toThrowError('"worm" is not a valid name.');
 
-    expect(gw.getGameWorldObjects().length).toBe(1);
+    expect(gw.getWorldObjects().length).toBe(1);
   });
 });
 

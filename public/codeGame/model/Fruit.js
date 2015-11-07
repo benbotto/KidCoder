@@ -4,13 +4,13 @@ angular.module('bsyKidCoder')
  * Food for the worm.
  */
 .factory('Fruit',
-['$window', 'BLOCK_SIZE', 'BOARD_WIDTH', 'BOARD_HEIGHT', 'GameWorldObject', 'Rectangle',
-function($window, BLOCK_SIZE, BOARD_WIDTH, BOARD_HEIGHT, GameWorldObject, Rectangle)
+['$window', 'BLOCK_SIZE', 'BOARD_WIDTH', 'BOARD_HEIGHT', 'WorldObject', 'Rectangle',
+function($window, BLOCK_SIZE, BOARD_WIDTH, BOARD_HEIGHT, WorldObject, Rectangle)
 {
   'use strict';
 
-  // Fruit extends GameWorldObject.
-  Fruit.prototype = Object.create(GameWorldObject.prototype);
+  // Fruit extends WorldObject.
+  Fruit.prototype = Object.create(WorldObject.prototype);
   Fruit.prototype.constructor = Fruit;
 
   /**
@@ -19,7 +19,7 @@ function($window, BLOCK_SIZE, BOARD_WIDTH, BOARD_HEIGHT, GameWorldObject, Rectan
    */
   function Fruit(name)
   {
-    GameWorldObject.call(this, name);
+    WorldObject.call(this, name);
 
     // Fruit gets added randomly in the world.  The place where the block gets
     // added must be divisible by BLOCK_SIZE.

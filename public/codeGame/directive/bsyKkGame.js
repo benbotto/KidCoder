@@ -37,7 +37,7 @@ function($window, Rectangle)
         // Clear the canvas.
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        scope.game.gameWorld.getGameWorldObjects().forEach(function(gwo)
+        scope.game.gameWorld.getWorldObjects().forEach(function(gwo)
         {
           gwo.getShapes().forEach(function(shape)
           {

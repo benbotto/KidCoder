@@ -4,8 +4,8 @@ angular.module('bsyKidCoder')
  * One of the walls of the game.
  */
 .factory('Wall',
-['BLOCK_SIZE', 'GameWorldObject', 'Rectangle',
-function(BLOCK_SIZE, GameWorldObject, Rectangle)
+['BLOCK_SIZE', 'WorldObject', 'Rectangle',
+function(BLOCK_SIZE, WorldObject, Rectangle)
 {
   'use strict';
 
@@ -17,8 +17,8 @@ function(BLOCK_SIZE, GameWorldObject, Rectangle)
     RIGHT:  'right'
   };
 
-  // Wall extends GameWorldObject.
-  Wall.prototype = Object.create(GameWorldObject.prototype);
+  // Wall extends WorldObject.
+  Wall.prototype = Object.create(WorldObject.prototype);
   Wall.prototype.constructor = Wall;
 
   /**
@@ -29,7 +29,7 @@ function(BLOCK_SIZE, GameWorldObject, Rectangle)
    */
   function Wall(gameWidth, gameHeight, loc)
   {
-    GameWorldObject.call(this, loc + '_wall');
+    WorldObject.call(this, loc + '_wall');
 
     var color = 'grey';
 

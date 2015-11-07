@@ -1,4 +1,4 @@
-angular.module('bsyKidCoder')
+angular.module('bsyGame')
 
 /**
  * A Shape base class.

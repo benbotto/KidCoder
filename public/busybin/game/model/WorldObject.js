@@ -1,9 +1,9 @@
-angular.module('bsyKidCoder')
+angular.module('bsyGame')
 
 /**
- * 
+ * Base class for all the objects in the game.
  */
-.factory('GameWorldObject',
+.factory('WorldObject',
 [
 function()
 {
@@ -14,7 +14,7 @@ function()
    * @param name The name of the object.
    * @param color The color of the object (defaults to red).
    */
-  function GameWorldObject(name, color)
+  function WorldObject(name, color)
   {
     if (name === undefined)
       throw new Error('Name is required.');
@@ -27,7 +27,7 @@ function()
   /**
    * Get the location of the object.
    */
-  GameWorldObject.prototype.getLocation = function()
+  WorldObject.prototype.getLocation = function()
   {
     return this._location;
   };
@@ -37,7 +37,7 @@ function()
    * @param x The x location of the object.
    * @param y The y location of the object.
    */
-  GameWorldObject.prototype.setLocation = function(x, y)
+  WorldObject.prototype.setLocation = function(x, y)
   {
     this._location.x = x;
     this._location.y = y;
@@ -49,7 +49,7 @@ function()
    * @param x The amount to move in the x direction.
    * @param y The amount to move in the y direction.
    */
-  GameWorldObject.prototype.move = function(x, y)
+  WorldObject.prototype.move = function(x, y)
   {
     this._location.x += x;
     this._location.y += y;
@@ -61,7 +61,7 @@ function()
    * subclasses.
    * @param elapsed The elapsed time since the last update, in ms.
    */
-  GameWorldObject.prototype.tick = function(/*elapsed*/)
+  WorldObject.prototype.tick = function(/*elapsed*/)
   {
     return this;
   };
@@ -70,7 +70,7 @@ function()
    * Add a Shape to the object.
    * @param shape The Shape instance to add.
    */
-  GameWorldObject.prototype.addShape = function(shape)
+  WorldObject.prototype.addShape = function(shape)
   {
     this._shapes.push(shape);
     return this;
@@ -79,11 +79,11 @@ function()
   /**
    * Get the array of shapes.
    */
-  GameWorldObject.prototype.getShapes = function()
+  WorldObject.prototype.getShapes = function()
   {
     return this._shapes;
   };
 
-  return GameWorldObject;
+  return WorldObject;
 }]);
 

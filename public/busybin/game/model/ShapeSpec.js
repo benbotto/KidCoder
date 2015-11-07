@@ -4,7 +4,7 @@ describe('Shape test suite.', function()
 
   var Shape;
 
-  beforeEach(module('bsyKidCoder'));
+  beforeEach(module('bsyGame'));
   beforeEach(inject(function(_Shape_)
   {
     Shape = _Shape_;

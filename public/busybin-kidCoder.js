@@ -1,4 +1,4 @@
-angular.module('bsyKidCoder', ['ngRoute'])
+angular.module('bsyKidCoder', ['ngRoute', 'bsyGame'])
 
 /**
  * Configure the routing.

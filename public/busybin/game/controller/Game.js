@@ -1,4 +1,4 @@
-angular.module('bsyKidCoder')
+angular.module('bsyGame')
 
 /**
  * A Game model.  The game holds the game world, and the state of the game

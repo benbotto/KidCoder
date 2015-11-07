@@ -20,11 +20,11 @@ describe('KidCoderGameSpec', function()
   it('checks that the game objects are present.', function()
   {
     var gw = game.gameWorld;
-    expect(gw.getGameWorldObject('worm')).toBeDefined();
-    expect(gw.getGameWorldObject('left_wall')).toBeDefined();
-    expect(gw.getGameWorldObject('right_wall')).toBeDefined();
-    expect(gw.getGameWorldObject('top_wall')).toBeDefined();
-    expect(gw.getGameWorldObject('bottom_wall')).toBeDefined();
+    expect(gw.getWorldObject('worm')).toBeDefined();
+    expect(gw.getWorldObject('left_wall')).toBeDefined();
+    expect(gw.getWorldObject('right_wall')).toBeDefined();
+    expect(gw.getWorldObject('top_wall')).toBeDefined();
+    expect(gw.getWorldObject('bottom_wall')).toBeDefined();
   });
 
   // Adds random food to the world.
@@ -43,7 +43,7 @@ describe('KidCoderGameSpec', function()
 
     random.and.returnValue(1); // Add fruit.
     game.tick(500);
-    expect(game.gameWorld.getGameWorldObject('fruit0')).toBeDefined();
+    expect(game.gameWorld.getWorldObject('fruit0')).toBeDefined();
   });
 });
 

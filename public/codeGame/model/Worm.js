@@ -4,8 +4,8 @@ angular.module('bsyKidCoder')
  * The worm object.
  */
 .factory('Worm',
-['TICK_TIME', 'BLOCK_SIZE', 'BOARD_WIDTH', 'BOARD_HEIGHT', 'GameWorldObject', 'Rectangle',
-function(TICK_TIME, BLOCK_SIZE, BOARD_WIDTH, BOARD_HEIGHT, GameWorldObject, Rectangle)
+['TICK_TIME', 'BLOCK_SIZE', 'BOARD_WIDTH', 'BOARD_HEIGHT', 'WorldObject', 'Rectangle',
+function(TICK_TIME, BLOCK_SIZE, BOARD_WIDTH, BOARD_HEIGHT, WorldObject, Rectangle)
 {
   'use strict';
 
@@ -18,8 +18,8 @@ function(TICK_TIME, BLOCK_SIZE, BOARD_WIDTH, BOARD_HEIGHT, GameWorldObject, Rect
     NONE:  'none'
   };
 
-  // Worm extends GameWorldObject.
-  Worm.prototype = Object.create(GameWorldObject.prototype);
+  // Worm extends WorldObject.
+  Worm.prototype = Object.create(WorldObject.prototype);
   Worm.prototype.constructor = Worm;
 
   /**
@@ -27,7 +27,7 @@ function(TICK_TIME, BLOCK_SIZE, BOARD_WIDTH, BOARD_HEIGHT, GameWorldObject, Rect
    */
   function Worm()
   {
-    GameWorldObject.call(this, 'worm');
+    WorldObject.call(this, 'worm');
 
     // Start somewhere around the middle.
     var x = BLOCK_SIZE;
@@ -126,7 +126,7 @@ function(TICK_TIME, BLOCK_SIZE, BOARD_WIDTH, BOARD_HEIGHT, GameWorldObject, Rect
    */
   Worm.prototype.setLocation = function(x, y)
   {
-    GameWorldObject.prototype.setLocation.call(this, x, y);
+    WorldObject.prototype.setLocation.call(this, x, y);
 
     var shapes = this.getShapes();
 

@@ -4,7 +4,7 @@ describe('Rectangle spec.', function()
 
   var Rectangle;
 
-  beforeEach(module('bsyKidCoder'));
+  beforeEach(module('bsyGame'));
   beforeEach(inject(function(_Rectangle_)
   {
     Rectangle = _Rectangle_;
