@@ -9,7 +9,7 @@ module.exports = function(grunt, html)
 
   var ngtemplates =
   {
-    'acca.hqa':
+    bsyKidCoder:
     {
       src:    files,
       cwd:    __dirname + '/../public/',
@@ -17,7 +17,7 @@ module.exports = function(grunt, html)
       options:
       {
         // This is the usemin task to which the templates get concatenated.
-        usemin: 'js/hqa.acca.min.js',
+        usemin: 'js/kidCoder.min.js',
         htmlmin:
         {
           removeComments:     true,
