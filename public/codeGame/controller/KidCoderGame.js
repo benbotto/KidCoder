@@ -4,8 +4,11 @@ angular.module('bsyKidCoder')
  * Specialized game for KidCoder.
  */
 .factory('KidCoderGame',
-['$window', 'BOARD_WIDTH', 'BOARD_HEIGHT', 'Game', 'GameWorld', 'Worm', 'Wall', 'Fruit',
-function($window, BOARD_WIDTH, BOARD_HEIGHT, Game, GameWorld, Worm, Wall, Fruit)
+[
+  '$window', 'BOARD_WIDTH', 'BOARD_HEIGHT', 'BLOCK_SIZE', 'Game', 'GameWorld',
+  'WormRenderer', 'Worm', 'Fruit', 'RectangleRenderer', 'Rectangle',
+function($window, BOARD_WIDTH, BOARD_HEIGHT, BLOCK_SIZE, Game, GameWorld,
+  WormRenderer, Worm, Fruit, RectangleRenderer, Rectangle)
 {
   'use strict';
 
@@ -22,15 +25,58 @@ function($window, BOARD_WIDTH, BOARD_HEIGHT, Game, GameWorld, Worm, Wall, Fruit)
 
     this._fruitAdded = 0;
 
-    this.gameWorld.addWorldObject(new Worm());
-    this.gameWorld.addWorldObject(
-      new Wall(this.gameWorld.width,  this.gameWorld.height, 'top'));
-    this.gameWorld.addWorldObject(
-      new Wall(this.gameWorld.width,  this.gameWorld.height, 'left'));
-    this.gameWorld.addWorldObject(
-      new Wall(this.gameWorld.width,  this.gameWorld.height, 'bottom'));
-    this.gameWorld.addWorldObject(
-      new Wall(this.gameWorld.width,  this.gameWorld.height, 'right'));
+    var leftWall = new Rectangle
+    ({
+      name:   'left_wall',
+      color:  'grey',
+      width:  BLOCK_SIZE,
+      height: this.gameWorld.height,
+      x:      0,
+      y:      0
+    });
+
+    var rightWall = new Rectangle
+    ({
+      name:   'right_wall',
+      color:  'grey',
+      width:  BLOCK_SIZE,
+      height: this.gameWorld.height,
+      x:      this.gameWorld.width - BLOCK_SIZE,
+      y:      0
+    });
+
+    var topWall = new Rectangle
+    ({
+      name:   'top_wall',
+      color:  'grey',
+      width:  this.gameWorld.height - BLOCK_SIZE * 2,
+      height: BLOCK_SIZE,
+      x:      BLOCK_SIZE,
+      y:      0
+    });
+
+    var bottomWall = new Rectangle
+    ({
+      name:   'bottom_wall',
+      color:  'grey',
+      width:  this.gameWorld.height - BLOCK_SIZE * 2,
+      height: BLOCK_SIZE,
+      x:      BLOCK_SIZE,
+      y:      this.gameWorld.height - BLOCK_SIZE
+    });
+
+    var worm = new Worm();
+
+    this.gameWorld.addWorldObject(leftWall);
+    this.gameWorld.addWorldObject(rightWall);
+    this.gameWorld.addWorldObject(topWall);
+    this.gameWorld.addWorldObject(bottomWall);
+    this.gameWorld.addWorldObject(worm);
+    this.addRenderer(new RectangleRenderer(leftWall));
+    this.addRenderer(new RectangleRenderer(rightWall));
+    this.addRenderer(new RectangleRenderer(topWall));
+    this.addRenderer(new RectangleRenderer(bottomWall));
+    this.addRenderer(new WormRenderer(worm));
   }
 
   /**
@@ -42,10 +88,12 @@ function($window, BOARD_WIDTH, BOARD_HEIGHT, Game, GameWorld, Worm, Wall, Fruit)
     if (this.getState() === 'playing')
     {
       // 1 / 1000 chance of adding fruit to the world.
-      if ($window.Math.random() >= .999)
+      if ($window.Math.random() >= 0.999)
       {
         var name  = 'fruit' + this._fruitAdded++;
-        this.gameWorld.addWorldObject(new Fruit(name));
+        var fruit = new Fruit(name);
+        this.gameWorld.addWorldObject(fruit);
+        this.addRenderer(new RectangleRenderer(fruit));
       }
     }
 

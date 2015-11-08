@@ -4,13 +4,13 @@ angular.module('bsyKidCoder')
  * Food for the worm.
  */
 .factory('Fruit',
-['$window', 'BLOCK_SIZE', 'BOARD_WIDTH', 'BOARD_HEIGHT', 'WorldObject', 'Rectangle',
-function($window, BLOCK_SIZE, BOARD_WIDTH, BOARD_HEIGHT, WorldObject, Rectangle)
+['$window', 'BLOCK_SIZE', 'BOARD_WIDTH', 'BOARD_HEIGHT', 'Rectangle',
+function($window, BLOCK_SIZE, BOARD_WIDTH, BOARD_HEIGHT, Rectangle)
 {
   'use strict';
 
-  // Fruit extends WorldObject.
-  Fruit.prototype = Object.create(WorldObject.prototype);
+  // Fruit extends Rectangle.
+  Fruit.prototype = Object.create(Rectangle.prototype);
   Fruit.prototype.constructor = Fruit;
 
   /**
@@ -19,15 +19,24 @@ function($window, BLOCK_SIZE, BOARD_WIDTH, BOARD_HEIGHT, WorldObject, Rectangle)
    */
   function Fruit(name)
   {
-    WorldObject.call(this, name);
+    // The playable area is the size of the board minus the two walls.
+    var playableWidth  = BOARD_WIDTH  - BLOCK_SIZE * 2;
+    var playableHeight = BOARD_HEIGHT - BLOCK_SIZE * 2;
 
     // Fruit gets added randomly in the world.  The place where the block gets
     // added must be divisible by BLOCK_SIZE.
-    var x = $window.Math.floor($window.Math.random() * (BOARD_WIDTH / BLOCK_SIZE)) * BLOCK_SIZE;
-    var y = $window.Math.floor($window.Math.random() * (BOARD_HEIGHT / BLOCK_SIZE)) * BLOCK_SIZE;
+    var x = $window.Math.floor($window.Math.random() * (playableWidth  / BLOCK_SIZE)) * BLOCK_SIZE + BLOCK_SIZE;
+    var y = $window.Math.floor($window.Math.random() * (playableHeight / BLOCK_SIZE)) * BLOCK_SIZE + BLOCK_SIZE;
 
-    this.setLocation(x, y);
-    this.addShape(new Rectangle(x, y, BLOCK_SIZE, BLOCK_SIZE, 'blue'));
+    Rectangle.call(this,
+    {
+      name:   name,
+      x:      x,
+      y:      y,
+      width:  BLOCK_SIZE,
+      height: BLOCK_SIZE,
+      color:  'blue'
+    });
   }
 
   return Fruit;

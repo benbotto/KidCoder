@@ -7,7 +7,6 @@
     <title>Kid Coder</title>
 
     <!-- build:css css/KidCoder.min.css -->
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="codeGame/gameBoard.css">
     <!-- endbuild -->
   </head>
@@ -18,22 +17,24 @@
     <!-- build:js js/lib.min.js -->
     <script src="bower_components/angular/angular.min.js"></script>
     <script src="bower_components/angular-route/angular-route.min.js"></script>
+    <script src="bower_components/gl-matrix/dist/gl-matrix-min.js"></script>
     <!-- endbuild -->
 
     <!-- build:js js/kidCoder.min.js -->
-    <script src="busybin/game/busybin-game.js"></script>
-    <script src="busybin/game/controller/Game.js"></script>
-    <script src="busybin/game/model/GameWorld.js"></script>
-    <script src="busybin/game/model/WorldObject.js"></script>
-    <script src="busybin/game/model/Shape.js"></script>
-    <script src="busybin/game/model/Rectangle.js"></script>
+    <script src="busybin-game/busybin-game.js"></script>
+    <script src="busybin-game/service/glMatrix.js"></script>
+    <script src="busybin-game/controller/Game.js"></script>
+    <script src="busybin-game/model/GameWorld.js"></script>
+    <script src="busybin-game/model/worldObject/WorldObject.js"></script>
+    <script src="busybin-game/model/worldObject/Rectangle.js"></script>
+    <script src="busybin-game/view/RectangleRenderer.js"></script>
+    <script src="busybin-game/view/bsyGameRenderer.js"></script>
 
     <script src="busybin-kidCoder.js"></script>
     <script src="codeGame/controller/CodeGameCtrl.js"></script>
     <script src="codeGame/controller/KidCoderGame.js"></script>
-    <script src="codeGame/directive/bsyKkGame.js"></script>
     <script src="codeGame/model/Worm.js"></script>
-    <script src="codeGame/model/Wall.js"></script>
+    <script src="codeGame/view/WormRenderer.js"></script>
     <script src="codeGame/model/Fruit.js"></script>
     <!-- endbuild -->
   </body>

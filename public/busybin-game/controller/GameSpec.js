@@ -15,6 +15,16 @@ describe('Game test suite.', function()
   it('checks the default state of the game.', function()
   {
     expect(game.getState()).toBe('paused');
+    expect(game.renderers.length).toBe(0);
+  });
+
+  // Adds and gets renderers.
+  it('adds and gets renderers.', function()
+  {
+    game.addRenderer({foo: 'bar'});
+    game.addRenderer({baz: 'boo'});
+
+    expect(game.getRenderers().length).toBe(2);
   });
 
   // Starts the game.

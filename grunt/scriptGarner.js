@@ -14,14 +14,15 @@ module.exports = function(verbose)
   [
     'public/bower_components/angular/angular.min.js',
     'public/bower_components/angular-route/angular-route.min.js',
-    'public/bower_components/angular-mocks/angular-mocks.js'
+    'public/bower_components/angular-mocks/angular-mocks.js',
+    'public/bower_components/gl-matrix/dist/gl-matrix-min.js'
   ];
   
   // All the scripts that make up the app.  Note that the module declarations
   // must come first.
   scripts.app =
   [
-    'public/busybin/game/busybin-game.js',
+    'public/busybin-game/busybin-game.js',
     'public/busybin-kidCoder.js'
   ]
   .concat(glob.sync('public/**/*.js', opts)
@@ -29,7 +30,7 @@ module.exports = function(verbose)
   {
     return !script.match(/bower_components/) &&
            !script.match(/public\/busybin-kidCoder.js/) &&
-           !script.match(/public\/busybin\/game\/busybin-game.js/) &&
+           !script.match(/public\/busybin-game\/busybin-game.js/) &&
            !script.match(/Spec.js$/);
   }));
 

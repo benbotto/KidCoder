@@ -20,20 +20,21 @@ describe('Worm test suite.', function()
   // Checks the defaults.
   it('checks the defaults.', function()
   {
-    var x, y;
-    var width = worm.getShapes()[0].width;
+    var y;
+    var width = worm.wormParts[0].width;
 
     expect(worm.speed).toBe(20);
     expect(worm.name).toBe('worm');
-    expect(worm.getLocation()).toEqual({x: 250, y: 250});
-    expect(worm.getShapes().length).toBe(4);
+    expect(worm.getLocation()[0]).toBe(250);
+    expect(worm.getLocation()[1]).toBe(250);
+    expect(worm.wormParts.length).toBe(4);
 
-    for (var i = 0; i < worm.getShapes().length; ++i)
+    for (var i = 0; i < worm.wormParts.length; ++i)
     {
-      y = worm.getLocation().y + i * width;
+      y = worm.getLocation()[1] + i * width;
 
-      expect(worm.getShapes()[i].x).toBe(250);
-      expect(worm.getShapes()[i].y).toBe(y);
+      expect(worm.wormParts[i].getLocation()[0]).toBe(250);
+      expect(worm.wormParts[i].getLocation()[1]).toBe(y);
     }
   });
 
@@ -61,73 +62,77 @@ describe('Worm test suite.', function()
   {
     worm.setHeading('up');
     worm.tick(500);
-    expect(worm.getLocation()).toEqual({x: 250, y: 240});
+    expect(worm.getLocation()[0]).toBe(250);
+    expect(worm.getLocation()[1]).toBe(240);
 
     worm.setHeading('left');
     worm.tick(250); // Time delta too small - no movement.
-    expect(worm.getLocation()).toEqual({x: 250, y: 240});
+    expect(worm.getLocation()[0]).toBe(250);
+    expect(worm.getLocation()[1]).toBe(240);
     worm.tick(250);
-    expect(worm.getLocation()).toEqual({x: 240, y: 240});
+    expect(worm.getLocation()[0]).toBe(240);
+    expect(worm.getLocation()[1]).toBe(240);
 
     worm.setHeading('down');
     worm.tick(500);
-    expect(worm.getLocation()).toEqual({x: 240, y: 250});
+    expect(worm.getLocation()[0]).toBe(240);
+    expect(worm.getLocation()[1]).toBe(250);
 
     worm.setHeading('right');
     worm.tick(500);
-    expect(worm.getLocation()).toEqual({x: 250, y: 250});
+    expect(worm.getLocation()[0]).toBe(250);
+    expect(worm.getLocation()[1]).toBe(250);
 
     worm.setHeading('none');
     worm.tick(500);
-    expect(worm.getLocation()).toEqual({x: 250, y: 250});
+    expect(worm.getLocation()[0]).toBe(250);
+    expect(worm.getLocation()[1]).toBe(250);
   });
 
   // Makes sure that the body parts move.
   it('makes sure that the body parts move.', function()
   {
-    var shapes = worm.getShapes();
-
-    worm.setLocation(250, 240);
-    expect(shapes[0].x).toBe(250);
-    expect(shapes[0].y).toBe(240);
-    expect(shapes[1].x).toBe(250);
-    expect(shapes[1].y).toBe(250);
-    expect(shapes[2].x).toBe(250);
-    expect(shapes[2].y).toBe(260);
-    expect(shapes[3].x).toBe(250);
-    expect(shapes[3].y).toBe(270);
+    worm.translate(0, -10);
+    expect(worm.wormParts[0].getLocation()[0]).toBe(250);
+    expect(worm.wormParts[0].getLocation()[1]).toBe(240);
+    expect(worm.wormParts[1].getLocation()[0]).toBe(250);
+    expect(worm.wormParts[1].getLocation()[1]).toBe(250);
+    expect(worm.wormParts[2].getLocation()[0]).toBe(250);
+    expect(worm.wormParts[2].getLocation()[1]).toBe(260);
+    expect(worm.wormParts[3].getLocation()[0]).toBe(250);
+    expect(worm.wormParts[3].getLocation()[1]).toBe(270);
 
     // No movement, no update.
-    worm.setLocation(250, 240);
-    expect(shapes[0].x).toBe(250);
-    expect(shapes[0].y).toBe(240);
-    expect(shapes[1].x).toBe(250);
-    expect(shapes[1].y).toBe(250);
-    expect(shapes[2].x).toBe(250);
-    expect(shapes[2].y).toBe(260);
-    expect(shapes[3].x).toBe(250);
-    expect(shapes[3].y).toBe(270);
+    worm.translate(0, 0);
+    expect(worm.wormParts[0].getLocation()[0]).toBe(250);
+    expect(worm.wormParts[0].getLocation()[1]).toBe(240);
+    expect(worm.wormParts[1].getLocation()[0]).toBe(250);
+    expect(worm.wormParts[1].getLocation()[1]).toBe(250);
+    expect(worm.wormParts[2].getLocation()[0]).toBe(250);
+    expect(worm.wormParts[2].getLocation()[1]).toBe(260);
+    expect(worm.wormParts[3].getLocation()[0]).toBe(250);
+    expect(worm.wormParts[3].getLocation()[1]).toBe(270);
 
-    worm.setLocation(250, 230);
-    expect(shapes[0].x).toBe(250);
-    expect(shapes[0].y).toBe(230);
-    expect(shapes[1].x).toBe(250);
-    expect(shapes[1].y).toBe(240);
-    expect(shapes[2].x).toBe(250);
-    expect(shapes[2].y).toBe(250);
-    expect(shapes[3].x).toBe(250);
-    expect(shapes[3].y).toBe(260);
+    worm.translate(0, -10);
+    expect(worm.wormParts[0].getLocation()[0]).toBe(250);
+    expect(worm.wormParts[0].getLocation()[1]).toBe(230);
+    expect(worm.wormParts[1].getLocation()[0]).toBe(250);
+    expect(worm.wormParts[1].getLocation()[1]).toBe(240);
+    expect(worm.wormParts[2].getLocation()[0]).toBe(250);
+    expect(worm.wormParts[2].getLocation()[1]).toBe(250);
+    expect(worm.wormParts[3].getLocation()[0]).toBe(250);
+    expect(worm.wormParts[3].getLocation()[1]).toBe(260);
 
-    worm.setLocation(240, 230);
-    worm.setLocation(230, 230);
-    expect(shapes[0].x).toBe(230);
-    expect(shapes[0].y).toBe(230);
-    expect(shapes[1].x).toBe(240);
-    expect(shapes[1].y).toBe(230);
-    expect(shapes[2].x).toBe(250);
-    expect(shapes[2].y).toBe(230);
-    expect(shapes[3].x).toBe(250);
-    expect(shapes[3].y).toBe(240);
+    worm.translate(-10, 0);
+    worm.translate(-10, 0);
+    expect(worm.wormParts[0].getLocation()[0]).toBe(230);
+    expect(worm.wormParts[0].getLocation()[1]).toBe(230);
+    expect(worm.wormParts[1].getLocation()[0]).toBe(240);
+    expect(worm.wormParts[1].getLocation()[1]).toBe(230);
+    expect(worm.wormParts[2].getLocation()[0]).toBe(250);
+    expect(worm.wormParts[2].getLocation()[1]).toBe(230);
+    expect(worm.wormParts[3].getLocation()[0]).toBe(250);
+    expect(worm.wormParts[3].getLocation()[1]).toBe(240);
   });
 });
 

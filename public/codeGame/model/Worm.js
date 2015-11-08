@@ -27,15 +27,11 @@ function(TICK_TIME, BLOCK_SIZE, BOARD_WIDTH, BOARD_HEIGHT, WorldObject, Rectangl
    */
   function Worm()
   {
-    WorldObject.call(this, 'worm');
-
     // Start somewhere around the middle.
     var x = BLOCK_SIZE;
     var y = BLOCK_SIZE;
     while (x < BOARD_WIDTH  / 2) x += BLOCK_SIZE;
     while (y < BOARD_HEIGHT / 2) y += BLOCK_SIZE;
-
-    this.setLocation(x, y);
 
     // Move 1 block size per tick.
     this.speed     = BLOCK_SIZE / (TICK_TIME / 1000);
@@ -43,11 +39,33 @@ function(TICK_TIME, BLOCK_SIZE, BOARD_WIDTH, BOARD_HEIGHT, WorldObject, Rectangl
     this._moveTime = 0;
 
     // The worm is composed of a series of rectangles.
-    this.addShape(new Rectangle(x, y + BLOCK_SIZE * 0, BLOCK_SIZE, BLOCK_SIZE, 'green'));
-    this.addShape(new Rectangle(x, y + BLOCK_SIZE * 1, BLOCK_SIZE, BLOCK_SIZE, 'red'));
-    this.addShape(new Rectangle(x, y + BLOCK_SIZE * 2, BLOCK_SIZE, BLOCK_SIZE, 'red'));
-    this.addShape(new Rectangle(x, y + BLOCK_SIZE * 3, BLOCK_SIZE, BLOCK_SIZE, 'red'));
+    this.wormParts =
+    [
+      new Rectangle({x: x, y: y + BLOCK_SIZE * 0, width: BLOCK_SIZE, height: BLOCK_SIZE, color: 'green'}),
+      new Rectangle({x: x, y: y + BLOCK_SIZE * 1, width: BLOCK_SIZE, height: BLOCK_SIZE, color: 'red'}),
+      new Rectangle({x: x, y: y + BLOCK_SIZE * 2, width: BLOCK_SIZE, height: BLOCK_SIZE, color: 'red'}),
+      new Rectangle({x: x, y: y + BLOCK_SIZE * 3, width: BLOCK_SIZE, height: BLOCK_SIZE, color: 'red'})
+    ];
+
+    WorldObject.call(this, {name: 'worm'});
   }
+
+  /**
+   * Overrides the getWorldBounds method.  The world bounds are determined by
+   * the head only.
+   */
+  Worm.prototype.getWorldBounds = function()
+  {
+    return this.wormParts[0].getWorldBounds();
+  };
+
+  /**
+   * Get the worm's location, which is defined as the head's location.
+   */
+  Worm.prototype.getLocation = function()
+  {
+    return this.wormParts[0].getLocation();
+  };
 
   /**
    * Get the worm's heading.
@@ -95,22 +113,21 @@ function(TICK_TIME, BLOCK_SIZE, BOARD_WIDTH, BOARD_HEIGHT, WorldObject, Rectangl
     // The speed is in units per second.  Calculate the delta based on
     // the elapsed time.
     var moveDelta = this.speed / 1000 * TICK_TIME;
-    var loc       = this.getLocation();
 
     // Move in the correct direction.
     switch (this._heading)
     {
       case Worm.HEADING.UP:
-        this.setLocation(loc.x, loc.y - moveDelta);
+        this.translate(0, -moveDelta);
         break;
       case Worm.HEADING.LEFT:
-        this.setLocation(loc.x - moveDelta, loc.y);
+        this.translate(-moveDelta, 0);
         break;
       case Worm.HEADING.DOWN:
-        this.setLocation(loc.x, loc.y + moveDelta);
+        this.translate(0, moveDelta);
         break;
       case Worm.HEADING.RIGHT:
-        this.setLocation(loc.x + moveDelta, loc.y);
+        this.translate(moveDelta, 0);
         break;
       case Worm.HEADING.NONE:
         break;
@@ -120,35 +137,29 @@ function(TICK_TIME, BLOCK_SIZE, BOARD_WIDTH, BOARD_HEIGHT, WorldObject, Rectangl
   };
 
   /**
-   * Override of setLocation that sets each rectangle's location.
+   * Override of translate that sets each rectangle's location.
    * @param x The x location of the object.
    * @param y The y location of the object.
    */
-  Worm.prototype.setLocation = function(x, y)
+  Worm.prototype.translate = function(x, y)
   {
-    WorldObject.prototype.setLocation.call(this, x, y);
-
-    var shapes = this.getShapes();
-
-    // No shapes (initializing).
-    if (shapes.length === 0)
-      return;
-
-    // No movement.
-    if (shapes[0].x === x && shapes[0].y === y)
-      return;
+    // No movement (initializing).
+    if (x === 0 && y === 0)
+      return this;
 
     // Move all the body parts.  Each one moves to the position of
     // its forward-attached rectangle.
-    for (var i = shapes.length - 1; i > 0; --i)
+    for (var i = this.wormParts.length - 1; i > 0; --i)
     {
-      shapes[i].x = shapes[i - 1].x;
-      shapes[i].y = shapes[i - 1].y;
+      this.wormParts[i].translate
+      (
+        this.wormParts[i - 1].getLocation()[0] - this.wormParts[i].getLocation()[0],
+        this.wormParts[i - 1].getLocation()[1] - this.wormParts[i].getLocation()[1]
+      );
     }
 
     // Move the head.
-    shapes[0].x = x;
-    shapes[0].y = y;
+    this.wormParts[0].translate(x, y);
 
     return this;
   };

@@ -20,28 +20,37 @@ describe('Fruit test suite.', function()
   // Checks the rectangle of the fruit.
   it('checks the rectangle of the fruit.', function()
   {
-    var f;
-    var random = spyOn($window.Math, 'random');
-    random.and.returnValue(0);
-    
-    f = new Fruit('fruit0');
-    expect(f.getLocation()).toEqual({x: 0, y: 0});
+    var f = new Fruit('fruit0');
     expect(f.name).toBe('fruit0');
-    expect(f.getShapes()[0].x).toBe(0);
-    expect(f.getShapes()[0].y).toBe(0);
-    expect(f.getShapes()[0].color).toBe('blue');
+    expect(f.color).toBe('blue');
   });
 
-  // Checks the random location.
-  it('checks the random location.', function()
+  // Checks the minimum location.
+  it('checks the minimum location.', function()
   {
     var f;
     var random = spyOn($window.Math, 'random');
-    random.and.returnValue(.999);
+    random.and.returnValue(0);
+
     f = new Fruit('fruit0');
-    expect(f.getLocation()).toEqual({x: 490, y: 490});
-    expect(f.getShapes()[0].x).toBe(490);
-    expect(f.getShapes()[0].y).toBe(490);
+
+    // Minimum is right next to the left/top walls.
+    expect(f.getLocation()[0]).toEqual(10);
+    expect(f.getLocation()[1]).toEqual(10);
+  });
+
+  // Checks the maximum location.
+  it('checks the maximum location.', function()
+  {
+    var f;
+    var random = spyOn($window.Math, 'random');
+    random.and.returnValue(0.999999);
+
+    f = new Fruit('fruit0');
+
+    // Maximum is right next to the right/bottom walls.
+    expect(f.getLocation()[0]).toEqual(480);
+    expect(f.getLocation()[1]).toEqual(480);
   });
 });
 

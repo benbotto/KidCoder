@@ -1,7 +1,7 @@
 angular.module('bsyGame')
 
 /**
- * A Game model.  The game holds the game world, and the state of the game
+ * A Game controller.  The game holds the game world, and the state of the game
  * (playing, paused, etc.).
  */
 .factory('Game',
@@ -23,6 +23,7 @@ function(GameWorld)
    */
   function Game(gameWorld)
   {
+    this.renderers  = [];
     this.gameWorld  = gameWorld || new GameWorld();
     this._gameState = Game.GAME_STATE.PAUSED;
     this._elapsed   = 0;
@@ -77,6 +78,23 @@ function(GameWorld)
     if (this.getState() === 'playing')
       this.gameWorld.tick(elapsed - this._elapsed);
     this._elapsed = elapsed;
+  };
+
+  /**
+   * Add a renderer (view).
+   * @param renderer A renderer that draws a GameObject.
+   */
+  Game.prototype.addRenderer = function(renderer)
+  {
+    this.renderers.push(renderer);
+  };
+
+  /**
+   * Get the array of renderers.
+   */
+  Game.prototype.getRenderers = function()
+  {
+    return this.renderers;
   };
 
   return Game;

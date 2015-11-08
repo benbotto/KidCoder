@@ -20,7 +20,7 @@ describe('KidCoderGameSpec', function()
   it('checks that the game objects are present.', function()
   {
     var gw = game.gameWorld;
-    expect(gw.getWorldObject('worm')).toBeDefined();
+    //expect(gw.getWorldObject('worm')).toBeDefined();
     expect(gw.getWorldObject('left_wall')).toBeDefined();
     expect(gw.getWorldObject('right_wall')).toBeDefined();
     expect(gw.getWorldObject('top_wall')).toBeDefined();
@@ -37,7 +37,7 @@ describe('KidCoderGameSpec', function()
     expect($window.Math.random.calls.count()).toBe(0);
 
     game.start();
-    random.and.returnValue(.998); // Not high enough.
+    random.and.returnValue(0.998); // Not high enough.
     game.tick(500);
     expect($window.Math.random.calls.count()).toBe(1);
 

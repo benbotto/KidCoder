@@ -1,4 +1,9 @@
-<bsy-kk-game game="game"></bsy-kk-game>
+<bsy-game-renderer
+  width="game.gameWorld.width"
+  height="game.gameWorld.height"
+  renderers="game.renderers"
+  get-elapsed="game.getElapsed()">
+</bsy-game-renderer>
 
 <div class="game-controls">
   <button ng-click="game.start()">Play</button>
