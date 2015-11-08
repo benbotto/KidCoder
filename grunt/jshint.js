@@ -32,14 +32,14 @@ module.exports = function(grunt, scripts)
     },
 
     /* Unit tests. */
-    /* TODO: lint these as well. */
-    /*unitTests:
+    unitTests:
     {
       options:
       {
         globals:
         {
           angular:    true,
+          module:     true,
           describe:   true,
           it:         true,
           expect:     true,
@@ -55,7 +55,7 @@ module.exports = function(grunt, scripts)
       {
         src: scripts.spec.unit
       }
-    },*/
+    },
 
     /* Grunt files. */
     grunt:
