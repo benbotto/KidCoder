@@ -61,10 +61,18 @@ describe('Rectangle spec.', function()
 
     r.translate(10, 10); // r goes from (10, 10) to (20, 30).
 
+    // Sharing an edge is not colliding.
     wb =
     {
       topLeft: vec2.fromValues(0, 0),
       bottomRight: vec2.fromValues(10, 10)
+    };
+    expect(r.contains(wb)).toBe(false);
+
+    wb =
+    {
+      topLeft: vec2.fromValues(1, 1),
+      bottomRight: vec2.fromValues(11, 11)
     };
     expect(r.contains(wb)).toBe(true);
 

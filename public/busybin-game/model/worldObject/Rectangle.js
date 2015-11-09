@@ -88,19 +88,19 @@ function(WorldObject, vec2)
   Rectangle.prototype.contains = function(wb)
   {
     // This rectangle is completely on the right.
-    if (this._worldBounds.topLeft[0] > wb.bottomRight[0])
+    if (this._worldBounds.topLeft[0] >= wb.bottomRight[0])
       return false;
 
     // This rectangle is completely on the left.
-    if (this._worldBounds.bottomRight[0] < wb.topLeft[0])
+    if (this._worldBounds.bottomRight[0] <= wb.topLeft[0])
       return false;
 
     // This rectangle is above.
-    if (this._worldBounds.bottomRight[1] < wb.topLeft[1])
+    if (this._worldBounds.bottomRight[1] <= wb.topLeft[1])
       return false;
 
     // This rectangle is below.
-    if (this._worldBounds.topLeft[1] > wb.bottomRight[1])
+    if (this._worldBounds.topLeft[1] >= wb.bottomRight[1])
       return false;
 
     return true;
