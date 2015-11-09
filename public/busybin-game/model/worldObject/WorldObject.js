@@ -68,6 +68,22 @@ function(mat3, vec2)
     throw new Error('WorldObject::getWorldBounds not implemented.');
   };
 
+  /**
+   * Check if this WorldObject collides with another WorldObject (wo).  The
+   * other object may be this WorldObject.  That is, depending on the game
+   * a WorldObject may be able to collide with itself.
+   * The default implementation checks if this contains the world bounds of
+   * the wo.
+   * The default implementation returns false if wo === this.
+   * @param wo The other WorldObject, which may be this.
+   */
+  WorldObject.prototype.collidesWith = function(wo)
+  {
+    if (this === wo)
+      return false;
+    return this.contains(wo.getWorldBounds());
+  };
+
   return WorldObject;
 }]);
 

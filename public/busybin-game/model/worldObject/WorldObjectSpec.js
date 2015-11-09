@@ -81,5 +81,34 @@ describe('WorldObject test suite.', function()
       gwo.getWorldBounds();
     }).toThrowError('WorldObject::getWorldBounds not implemented.');
   });
+
+  describe('WorldObject collision test suite.', function()
+  {
+    var Rectangle;
+
+    beforeEach(inject(function(_Rectangle_)
+    {
+      Rectangle = _Rectangle_;
+    }));
+
+    // Checks that a WorldObject does not collide with itself by default.
+    it('checks that a WorldObject does not collide with itself by default.', function()
+    {
+      var gwo = new WorldObject({name: 'wo1'});
+      expect(gwo.collidesWith(gwo)).toBe(false);
+    });
+
+    // Checks the collision handling with a Rectangle WorldObject.
+    it('checks the collision handling with a Rectangle WorldObject.', function()
+    {
+      var r1 = new Rectangle({width: 10, height: 10, x: 10, y: 10});
+      var r2 = new Rectangle({width: 10, height: 10, x: 15, y: 15});
+
+      expect(r1.collidesWith(r2)).toBe(true);
+
+      r2 = new Rectangle({width: 10, height: 10, x: 21, y: 15});
+      expect(r1.collidesWith(r2)).toBe(false);
+    });
+  });
 });
 
