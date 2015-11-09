@@ -1,2 +1,3 @@
 Do collision checking in KidCoderGame.tick()
 Need a game timer instead of ticking in the controller.  The tick is untested (although trivial).
+GameObject::getWorldBounds should return a BoundingVolumn (a rectangle) and that should have a contains() method.
