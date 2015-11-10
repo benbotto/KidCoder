@@ -2,65 +2,102 @@ describe('WorldObject test suite.', function()
 {
   'use strict';
 
-  var WorldObject, vec2;
+  var WorldObject, vec2, BoundedWO;
 
   beforeEach(module('bsyGame'));
   beforeEach(inject(function(_WorldObject_, _vec2_)
   {
     WorldObject = _WorldObject_;
     vec2        = _vec2_;
+    BoundedWO   = function(settings)
+    {
+      this.wb =
+      {
+        transform: null,
+        setTransform: function(trans)
+        {
+          this.transform = trans;
+        }
+      };
+
+      WorldObject.call(this, settings);
+    };
+
+    // BoundedWO extends WorldObject.
+    BoundedWO.prototype = Object.create(WorldObject.prototype);
+    BoundedWO.prototype.constructor = BoundedWO;
+
+    // Mock getWorldBounds impl.
+    BoundedWO.prototype.getWorldBounds = function()
+    {
+      return this.wb;
+    };
   }));
 
   // Checks the defaults.
   it('checks the defaults.', function()
   {
-    var gwo = new WorldObject({name: 'worm'});
+    var gwo = new BoundedWO({name: 'worm'});
     expect(gwo.name).toBe('worm');
     expect(gwo.color).toBe('red');
 
     expect(function()
     {
-      new WorldObject({});
+      new BoundedWO({});
     }).toThrowError('Name is required.');
   });
 
   // Fires the do-nothing tick function.
   it('fires the do-nothing tick function.', function()
   {
-    var gwo = new WorldObject({name: 'worm'});
+    var gwo = new BoundedWO({name: 'worm'});
     expect(function()
     {
       gwo.tick(100);
     }).not.toThrow();
   });
 
+  // Makes sure that setTransform() updates the WorldBound's transform.
+  it('makes sure that setTransform() updates the WorldBound\'s transform.', function()
+  {
+    var gwo = new BoundedWO({name: 'apple'});
+    expect(gwo.getWorldBounds().transform).toBe(gwo.getTransform());
+  });
+
   // Checks that translate works correctly.
   it('checks that translate works correctly.', function()
   {
-    var gwo = new WorldObject({name: 'apple'});
+    var gwo = new BoundedWO({name: 'apple'});
     var loc = vec2.fromValues(0, 0);
 
     // The default matrix is identity - the location does not move.
-    vec2.transformMat3(loc, loc, gwo.transform);
+    vec2.transformMat3(loc, loc, gwo.getTransform());
     expect(loc).toEqual(vec2.create());
 
     gwo.translate(10, 5);
-    vec2.transformMat3(loc, loc, gwo.transform);
+    vec2.transformMat3(loc, loc, gwo.getTransform());
     expect(loc).toEqual(vec2.fromValues(10, 5));
 
     // Starting at 10, 5, translating by 20, 10, get 30, 15.
     gwo.translate(10, 5);
-    vec2.transformMat3(loc, loc, gwo.transform);
+    vec2.transformMat3(loc, loc, gwo.getTransform());
     expect(loc).toEqual(vec2.fromValues(30, 15));
+  });
+
+  // Makes sure that translate() updates the WorldBound's transform.
+  it('makes sure that translate() updates the WorldBound\'s transform.', function()
+  {
+    var gwo = new BoundedWO({name: 'apple'});
+    expect(gwo.getWorldBounds().transform).toBe(gwo.getTransform());
   });
 
   // Translates using the constructor.
   it('translates using the constructor.', function()
   {
-    var gwo = new WorldObject({name: 'apple', x: 10, y: 12});
+    var gwo = new BoundedWO({name: 'apple', x: 10, y: 12});
     var loc = vec2.fromValues(0, 0);
 
-    vec2.transformMat3(loc, loc, gwo.transform);
+    vec2.transformMat3(loc, loc, gwo.getTransform());
     expect(loc[0]).toBe(10);
     expect(loc[1]).toBe(12);
   });
@@ -68,7 +105,7 @@ describe('WorldObject test suite.', function()
   // Sets the color in the constructor.
   it('sets the color in the constructor.', function()
   {
-    var gwo = new WorldObject({name: 'apple', color: 'green'});
+    var gwo = new BoundedWO({name: 'apple', color: 'green'});
     expect(gwo.color).toBe('green');
   });
 
@@ -94,7 +131,7 @@ describe('WorldObject test suite.', function()
     // Checks that a WorldObject does not collide with itself by default.
     it('checks that a WorldObject does not collide with itself by default.', function()
     {
-      var gwo = new WorldObject({name: 'wo1'});
+      var gwo = new BoundedWO({name: 'wo1'});
       expect(gwo.collidesWith(gwo)).toBe(false);
     });
 

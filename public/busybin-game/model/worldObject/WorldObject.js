@@ -33,9 +33,9 @@ function(mat3, vec2)
 
     settings = angular.extend({}, defaults, settings);
 
-    this.name      = settings.name;
-    this.color     = settings.color;
-    this.transform = mat3.create();
+    this.name       = settings.name;
+    this.color      = settings.color;
+    this._transform = mat3.create();
 
     this.translate(settings.x, settings.y);
   }
@@ -51,17 +51,41 @@ function(mat3, vec2)
   };
 
   /**
+   * Get the current transform matrix by reference.  It is not safe to modify
+   * it directly.  If you want to manually update the transform, make a copy,
+   * modify the copy, and then use the setTransform() method.
+   */
+  WorldObject.prototype.getTransform = function()
+  {
+    return this._transform;
+  };
+
+  /**
+   * Set a new transformation matrix.
+   * @param transform The new transformation matrix.
+   */
+  WorldObject.prototype.setTransform = function(transform)
+  {
+    mat3.copy(this._transform, transform);
+    this.getWorldBounds().setTransform(this._transform);
+    return this;
+  };
+
+  /**
    * Move the world object.
    * @param x The x amount to translate.
    * @param y The y amount to translate.
    */
   WorldObject.prototype.translate = function(x, y)
   {
-    mat3.translate(this.transform, this.transform, vec2.fromValues(x, y));
+    mat3.translate(this._transform, this._transform, vec2.fromValues(x, y));
+    this.getWorldBounds().setTransform(this._transform);
+    return this;
   };
 
   /**
-   * All concrete WorldObjects must provide world bounds.
+   * All concrete WorldObjects with must implement this method.  The method
+   * should return a Rectangle with a overlaps(Rectangle) method.
    */
   WorldObject.prototype.getWorldBounds = function()
   {
@@ -72,7 +96,7 @@ function(mat3, vec2)
    * Check if this WorldObject collides with another WorldObject (wo).  The
    * other object may be this WorldObject.  That is, depending on the game
    * a WorldObject may be able to collide with itself.
-   * The default implementation checks if this contains the world bounds of
+   * The default implementation checks if this overlaps the world bounds of
    * the wo.
    * The default implementation returns false if wo === this.
    * @param wo The other WorldObject, which may be this.
@@ -81,7 +105,7 @@ function(mat3, vec2)
   {
     if (this === wo)
       return false;
-    return this.contains(wo.getWorldBounds());
+    return this.overlaps(wo.getWorldBounds());
   };
 
   return WorldObject;

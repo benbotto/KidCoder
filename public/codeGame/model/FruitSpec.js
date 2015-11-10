@@ -35,8 +35,8 @@ describe('Fruit test suite.', function()
     f = new Fruit('fruit0');
 
     // Minimum is right next to the left/top walls.
-    expect(f.getLocation()[0]).toEqual(10);
-    expect(f.getLocation()[1]).toEqual(10);
+    expect(f.getLeft()).toEqual(10);
+    expect(f.getTop()).toEqual(10);
   });
 
   // Checks the maximum location.
@@ -49,8 +49,8 @@ describe('Fruit test suite.', function()
     f = new Fruit('fruit0');
 
     // Maximum is right next to the right/bottom walls.
-    expect(f.getLocation()[0]).toEqual(480);
-    expect(f.getLocation()[1]).toEqual(480);
+    expect(f.getLeft()).toEqual(480);
+    expect(f.getTop()).toEqual(480);
   });
 });
 

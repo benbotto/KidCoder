@@ -2,13 +2,14 @@ describe('Rectangle spec.', function()
 {
   'use strict';
 
-  var Rectangle, vec2;
+  var Rectangle, vec2, mat3;
 
   beforeEach(module('bsyGame'));
-  beforeEach(inject(function(_Rectangle_, _vec2_)
+  beforeEach(inject(function(_Rectangle_, _vec2_, _mat3_)
   {
     Rectangle = _Rectangle_;
-    vec2 = _vec2_;
+    vec2      = _vec2_;
+    mat3      = _mat3_;
   }));
 
   // Checks the defaults.
@@ -35,90 +36,74 @@ describe('Rectangle spec.', function()
     expect(r.color).toBe('green');
   });
 
-  // Checks the world bounds.
-  it('checks the world bounds.', function()
+  // Checks that a Rectangle is its own WorldBounds.
+  it('checks that a Rectangle is its own WorldBounds.', function()
+  {
+    var r = new Rectangle({width: 10, height: 10});
+    expect(r.getWorldBounds()).toBe(r);
+  });
+
+  // Checks the edge location functions.
+  it('checks the edge location functions.', function()
   {
     var r = new Rectangle({width: 10, height: 20});
-    var wb = r.getWorldBounds();
-    expect(wb.topLeft[0]).toEqual(0);
-    expect(wb.topLeft[1]).toEqual(0);
-    expect(wb.bottomRight[0]).toEqual(10);
-    expect(wb.bottomRight[1]).toEqual(20);
+    expect(r.getTop()).toEqual(0);
+    expect(r.getLeft()).toEqual(0);
+    expect(r.getBottom()).toEqual(20);
+    expect(r.getRight()).toBe(10);
 
     r.translate(5, 6);
-    wb = r.getWorldBounds();
-    expect(wb.topLeft[0]).toEqual(5);
-    expect(wb.topLeft[1]).toEqual(6);
-    expect(wb.bottomRight[0]).toEqual(15);
-    expect(wb.bottomRight[1]).toEqual(26);
+    expect(r.getTop()).toEqual(6);
+    expect(r.getLeft()).toEqual(5);
+    expect(r.getBottom()).toEqual(26);
+    expect(r.getRight()).toBe(15);
   });
 
-  // Checks collisions (contains).
-  it('checks collisions (contains).', function()
+  // Checks collisions (overlaps).
+  it('checks collisions (overlaps).', function()
   {
-    var r = new Rectangle({width: 10, height: 20});
-    var wb;
+    var r1 = new Rectangle({width: 10, height: 20});
+    var r2 = new Rectangle({width: 10, height: 10});
 
-    r.translate(10, 10); // r goes from (10, 10) to (20, 30).
+    r1.translate(10, 10); // r1 goes from (10,10) to (20,30).
 
-    // Sharing an edge is not colliding.
-    wb =
-    {
-      topLeft: vec2.fromValues(0, 0),
-      bottomRight: vec2.fromValues(10, 10)
-    };
-    expect(r.contains(wb)).toBe(false);
+    expect(r1.overlaps(r2)).toBe(false);
 
-    wb =
-    {
-      topLeft: vec2.fromValues(1, 1),
-      bottomRight: vec2.fromValues(11, 11)
-    };
-    expect(r.contains(wb)).toBe(true);
+    r2.translate(1, 1); // (1,1) to (11,11).
+    expect(r1.overlaps(r2)).toBe(true);
 
-    wb =
-    {
-      topLeft: vec2.fromValues(5, 5),
-      bottomRight: vec2.fromValues(15, 15)
-    };
-    expect(r.contains(wb)).toBe(true);
+    r2.translate(4, 4); // (5,5) to (15,15).
+    expect(r1.overlaps(r2)).toBe(true);
 
-    wb =
-    {
-      topLeft: vec2.fromValues(0, 0),
-      bottomRight: vec2.fromValues(9, 15)
-    };
-    expect(r.contains(wb)).toBe(false);
+    r2 = new Rectangle({width: 9, height: 15});
+    expect(r1.overlaps(r2)).toBe(false);
 
-    wb =
-    {
-      topLeft: vec2.fromValues(31, 0),
-      bottomRight: vec2.fromValues(40, 15)
-    };
-    expect(r.contains(wb)).toBe(false);
+    r2.translate(31, 0); // (31,0) to (40,15).
+    expect(r1.overlaps(r2)).toBe(false);
 
-    wb =
-    {
-      topLeft: vec2.fromValues(11, 31),
-      bottomRight: vec2.fromValues(30, 40)
-    };
-    expect(r.contains(wb)).toBe(false);
+    r2 = new Rectangle({x: 11, y: 31, width: 9, height: 9});
+    expect(r1.overlaps(r2)).toBe(false);
 
-    wb =
-    {
-      topLeft: vec2.fromValues(11, 0),
-      bottomRight: vec2.fromValues(20, 9)
-    };
-    expect(r.contains(wb)).toBe(false);
+    r2 = new Rectangle({x: 11, y: 0, width: 9, height: 9});
+    expect(r1.overlaps(r2)).toBe(false);
   });
 
-  // Checks the getLocation() helper function.
-  it('checks the getLocation() helper function.', function()
+  // Sets a transform directly and verifies that the WorldBounds are updated.
+  it('sets a transform directly and verifies that the WorldBounds are updated.', function()
   {
-    var r = new Rectangle({width: 10, height: 20, x: 30, y: 40});
+    var trans = mat3.create();
+    var by    = vec2.fromValues(3, 5);
+    var r     = new Rectangle({width: 10, height: 10});
 
-    expect(r.getLocation()[0]).toBe(30);
-    expect(r.getLocation()[1]).toBe(40);
+    mat3.translate(trans, trans, by);
+
+    expect(r.getTransform()).toEqual(mat3.create());
+    r.setTransform(trans);
+    expect(r.getTransform()).toEqual(trans);
+    expect(r.getTop()).toEqual(5);
+    expect(r.getBottom()).toEqual(15);
+    expect(r.getLeft()).toEqual(3);
+    expect(r.getRight()).toBe(13);
   });
 });
 

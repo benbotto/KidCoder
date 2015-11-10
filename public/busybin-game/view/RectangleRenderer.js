@@ -27,8 +27,8 @@ function()
     var wb = this._rect.getWorldBounds();
 
     ctx.fillStyle = this._rect.color;
-    ctx.fillRect(wb.topLeft[0], wb.topLeft[1], this._rect.width, this._rect.height);
-    ctx.strokeRect(wb.topLeft[0], wb.topLeft[1], this._rect.width, this._rect.height);
+    ctx.fillRect(wb.getLeft(), wb.getTop(), this._rect.width, this._rect.height);
+    ctx.strokeRect(wb.getLeft(), wb.getTop(), this._rect.width, this._rect.height);
   };
 
   return RectangleRenderer;

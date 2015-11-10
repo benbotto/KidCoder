@@ -4,8 +4,8 @@ angular.module('bsyGame')
  * A Rectangle class for drawing a rectangle on a canvas.
  */
 .factory('Rectangle',
-['WorldObject', 'vec2',
-function(WorldObject, vec2)
+['WorldObject', 'vec2', 'mat3',
+function(WorldObject, vec2, mat3)
 {
   'use strict';
 
@@ -48,14 +48,14 @@ function(WorldObject, vec2)
   }
 
   /**
-   * Update the world bounds using the current transform.
+   * Update the world bounds using transform.
    */
   Rectangle.prototype._updateWorldBounds = function()
   {
     var topLeft  = vec2.create();
     var botRight = vec2.fromValues(this.width, this.height);
 
-    vec2.transformMat3(topLeft, topLeft, this.transform);
+    vec2.transformMat3(topLeft, topLeft, this.getTransform());
     vec2.add(botRight, botRight, topLeft);
 
     this._worldBounds.topLeft     = topLeft;
@@ -63,55 +63,81 @@ function(WorldObject, vec2)
   };
 
   /**
-   * When the object moves update the world bounds.
-   * @param x The x amount to translate.
-   * @param y The y amount to translate.
+   * Overridden setTransform function that stores the transform then updates
+   * the world bounds.  The transform is copied, not stored by reference.
+   * @param transform The transform to _copy_ to this object.
    */
-  Rectangle.prototype.translate = function(x, y)
+  Rectangle.prototype.setTransform = function(transform)
   {
-    WorldObject.prototype.translate.call(this, x, y);
+    var thisTrans = this.getTransform();
+    mat3.copy(thisTrans, transform);
     this._updateWorldBounds();
+    return this;
   };
 
   /**
-   * Get the world bounds.
+   * Get the world bounds.  A Rectangle it its own WorldBounds.
    */
   Rectangle.prototype.getWorldBounds = function()
   {
-    return this._worldBounds;
+    return this;
   };
 
   /**
-   * Check if this rectangle contains another world object.
-   * @param wb The world bounds of another object.
+   * Get the top-most edge location (the y value).
    */
-  Rectangle.prototype.contains = function(wb)
+  Rectangle.prototype.getTop = function()
+  {
+    return this._worldBounds.topLeft[1];
+  };
+
+  /**
+   * Get the bottom-most edge location (the y value).
+   */
+  Rectangle.prototype.getBottom = function()
+  {
+    return this._worldBounds.bottomRight[1];
+  };
+
+  /**
+   * Get the left-most edge location (the x value).
+   */
+  Rectangle.prototype.getLeft = function()
+  {
+    return this._worldBounds.topLeft[0];
+  };
+
+  /**
+   * Get the right-most edge location (the x value).
+   */
+  Rectangle.prototype.getRight = function()
+  {
+    return this._worldBounds.bottomRight[0];
+  };
+
+  /**
+   * Check if this rectangle overlaps another world object.
+   * @param rect The bounding Rectangle of another object.
+   */
+  Rectangle.prototype.overlaps = function(rect)
   {
     // This rectangle is completely on the right.
-    if (this._worldBounds.topLeft[0] >= wb.bottomRight[0])
+    if (this.getLeft() >= rect.getRight())
       return false;
 
     // This rectangle is completely on the left.
-    if (this._worldBounds.bottomRight[0] <= wb.topLeft[0])
+    if (this.getRight() <= rect.getLeft())
       return false;
 
     // This rectangle is above.
-    if (this._worldBounds.bottomRight[1] <= wb.topLeft[1])
+    if (this.getBottom() <= rect.getTop())
       return false;
 
     // This rectangle is below.
-    if (this._worldBounds.topLeft[1] >= wb.bottomRight[1])
+    if (this.getTop() >= rect.getBottom())
       return false;
 
     return true;
-  };
-
-  /**
-   * Helper function to get the rectangles location (top-left point).
-   */
-  Rectangle.prototype.getLocation = function()
-  {
-    return this._worldBounds.topLeft;
   };
 
   return Rectangle;

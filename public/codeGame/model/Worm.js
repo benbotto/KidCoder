@@ -60,14 +60,6 @@ function(TICK_TIME, BLOCK_SIZE, BOARD_WIDTH, BOARD_HEIGHT, WorldObject, Rectangl
   };
 
   /**
-   * Get the worm's location, which is defined as the head's location.
-   */
-  Worm.prototype.getLocation = function()
-  {
-    return this.wormParts[0].getLocation();
-  };
-
-  /**
    * Get the worm's heading.
    */
   Worm.prototype.getHeading = function()
@@ -153,8 +145,8 @@ function(TICK_TIME, BLOCK_SIZE, BOARD_WIDTH, BOARD_HEIGHT, WorldObject, Rectangl
     {
       this.wormParts[i].translate
       (
-        this.wormParts[i - 1].getLocation()[0] - this.wormParts[i].getLocation()[0],
-        this.wormParts[i - 1].getLocation()[1] - this.wormParts[i].getLocation()[1]
+        this.wormParts[i - 1].getLeft() - this.wormParts[i].getLeft(),
+        this.wormParts[i - 1].getTop()  - this.wormParts[i].getTop()
       );
     }
 
