@@ -134,5 +134,16 @@ describe('Worm test suite.', function()
     expect(worm.wormParts[3].getWorldBounds().getLeft()).toBe(250);
     expect(worm.wormParts[3].getWorldBounds().getTop()).toBe(240);
   });
+
+  // Makes the worm grow.
+  it('makes the worm grow.', function()
+  {
+    worm.grow();
+    expect(worm.wormParts.length).toBe(5);
+
+    // The new worm part should be on top of the last one.  It will snake
+    // along after the next translate.
+    expect(worm.wormParts[4].getTransform()).toEqual(worm.wormParts[3].getTransform());
+  });
 });
 

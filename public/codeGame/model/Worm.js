@@ -142,18 +142,25 @@ function(TICK_TIME, BLOCK_SIZE, BOARD_WIDTH, BOARD_HEIGHT, WorldObject, Rectangl
     // Move all the body parts.  Each one moves to the position of
     // its forward-attached rectangle.
     for (var i = this.wormParts.length - 1; i > 0; --i)
-    {
-      this.wormParts[i].translate
-      (
-        this.wormParts[i - 1].getLeft() - this.wormParts[i].getLeft(),
-        this.wormParts[i - 1].getTop()  - this.wormParts[i].getTop()
-      );
-    }
+      this.wormParts[i].setTransform(this.wormParts[i - 1].getTransform());
 
     // Move the head.
     this.wormParts[0].translate(x, y);
 
     return this;
+  };
+
+  /**
+   * Grow the worm (add a rectangle).
+   */
+  Worm.prototype.grow = function()
+  {
+    var part = new Rectangle({width: BLOCK_SIZE, height: BLOCK_SIZE, color: 'red'});
+
+    // Add the new worm part on top of the end part.  On the next translate
+    // call the part will snake along with the rest.
+    part.setTransform(this.wormParts[this.wormParts.length - 1].getTransform());
+    this.wormParts.push(part);
   };
 
   return Worm;
