@@ -2,13 +2,15 @@ describe('Game test suite.', function()
 {
   'use strict';
 
-  var game;
+  var game, Renderer;
 
   beforeEach(module('bsyGame'));
-  beforeEach(inject(function(Game, GameWorld)
+  beforeEach(inject(function(Game, GameWorld, _Renderer_)
   {
     var gw = new GameWorld();
     game   = new Game(gw);
+
+    Renderer = _Renderer_;
   }));
 
   // Checks the default state of the game.
@@ -25,6 +27,32 @@ describe('Game test suite.', function()
     game.addRenderer({baz: 'boo'});
 
     expect(game.getRenderers().length).toBe(2);
+  });
+
+  // Removes a renderer.
+  it('removes a renderer.', function()
+  {
+    var wo1 = {name: 'wo1'};
+    var wo2 = {name: 'wo2'};
+    var wo3 = {name: 'wo3'};
+
+    game.addRenderer(new Renderer(wo1));
+    game.addRenderer(new Renderer(wo2));
+    game.addRenderer(new Renderer(wo3));
+
+    expect(game.getRenderers().length).toBe(3);
+    expect(game.getRenderers()[1].getWorldObject().name).toBe('wo2');
+
+    game.removeRenderer(wo2);
+    expect(game.getRenderers().length).toBe(2);
+    expect(game.getRenderers()[1].getWorldObject().name).toBe('wo3');
+
+    game.removeRenderer(wo1);
+    expect(game.getRenderers().length).toBe(1);
+    expect(game.getRenderers()[0].getWorldObject().name).toBe('wo3');
+
+    game.removeRenderer(wo3);
+    expect(game.getRenderers().length).toBe(0);
   });
 
   // Starts the game.

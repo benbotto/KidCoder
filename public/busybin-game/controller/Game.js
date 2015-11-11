@@ -97,6 +97,24 @@ function(GameWorld)
     return this.renderers;
   };
 
+  /**
+   * Remove a renderer for a WorldObject.
+   * @param wo A WorldObject instance, the renderer for which will be removed.
+   */
+  Game.prototype.removeRenderer = function(wo)
+  {
+    for (var i = 0; i < this.renderers.length; ++i)
+    {
+      if (this.renderers[i].getWorldObject() === wo)
+      {
+        this.renderers.splice(i, 1);
+        return this;
+      }
+    }
+
+    return this;
+  };
+
   return Game;
 }]);
 
