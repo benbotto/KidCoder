@@ -2,7 +2,7 @@ describe('GameTimer test suite.', function()
 {
   'use strict';
 
-  var game, gameTimer, intervalCallback, timeDelta;
+  var game, gameTimer, intervalCallback, timeDelta, $window;
   
   var $interval = function(cb, time)
   {
@@ -15,13 +15,15 @@ describe('GameTimer test suite.', function()
   {
     $provide.value('$interval', $interval);
   }));
-  beforeEach(inject(function(GameTimer)
+  beforeEach(inject(function(GameTimer, _$window_)
   {
     game =
     {
       tick: jasmine.createSpy('tick')
     };
     gameTimer = new GameTimer(50, game);
+
+    $window = _$window_;
   }));
 
   // Checks that the interval is wired up
@@ -42,7 +44,7 @@ describe('GameTimer test suite.', function()
   // Makes sure that game gets called with the total elapsed time.
   it('makes sure that game gets called with the total elapsed time.', function(done)
   {
-    window.setTimeout(function()
+    $window.setTimeout(function()
     {
       intervalCallback();
       expect(game.tick.calls.argsFor(0)).toBeGreaterThan(49);

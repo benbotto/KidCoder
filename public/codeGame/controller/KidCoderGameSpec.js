@@ -42,7 +42,7 @@ describe('KidCoderGameSpec', function()
     game.tick(500);
     expect($window.Math.random.calls.count()).toBe(1);
 
-    random.and.returnValue(.9); // Add fruit.
+    random.and.returnValue(0.9); // Add fruit.
     game.tick(500);
     expect(game.gameWorld.getWorldObject('fruit0')).toBeDefined();
   });
