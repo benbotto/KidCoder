@@ -4,10 +4,14 @@ angular.module('bsyGame')
  * A renderer for Rectangles.
  */
 .factory('RectangleRenderer',
-[
-function()
+['Renderer',
+function(Renderer)
 {
   'use strict';
+
+  // RectangleRenderer extends Renderer.
+  RectangleRenderer.prototype = Object.create(Renderer.prototype);
+  RectangleRenderer.prototype.constructor = RectangleRenderer;
 
   /**
    * Initialize.
@@ -15,7 +19,7 @@ function()
    */
   function RectangleRenderer(rect)
   {
-    this._rect = rect;
+    Renderer.call(this, rect);
   }
 
   /**
@@ -24,11 +28,11 @@ function()
    */
   RectangleRenderer.prototype.render = function(ctx)
   {
-    var wb = this._rect.getWorldBounds();
+    var wb = this.getWorldObject().getWorldBounds();
 
-    ctx.fillStyle = this._rect.color;
-    ctx.fillRect(wb.getLeft(), wb.getTop(), this._rect.width, this._rect.height);
-    ctx.strokeRect(wb.getLeft(), wb.getTop(), this._rect.width, this._rect.height);
+    ctx.fillStyle = this.getWorldObject().color;
+    ctx.fillRect(wb.getLeft(), wb.getTop(), this.getWorldObject().width, this.getWorldObject().height);
+    ctx.strokeRect(wb.getLeft(), wb.getTop(), this.getWorldObject().width, this.getWorldObject().height);
   };
 
   return RectangleRenderer;

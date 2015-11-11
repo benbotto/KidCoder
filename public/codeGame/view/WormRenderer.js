@@ -4,10 +4,14 @@ angular.module('bsyKidCoder')
  * A renderer for a Worm instance.
  */
 .factory('WormRenderer',
-['RectangleRenderer',
-function(RectangleRenderer)
+['Renderer', 'RectangleRenderer',
+function(Renderer, RectangleRenderer)
 {
   'use strict';
+
+  // WormRenderer extends Renderer.
+  WormRenderer.prototype = Object.create(Renderer.prototype);
+  WormRenderer.prototype.constructor = WormRenderer;
 
   /**
    * Initialize.
@@ -15,7 +19,7 @@ function(RectangleRenderer)
    */
   function WormRenderer(worm)
   {
-    this.worm = worm;
+    Renderer.call(this, worm);
   }
 
   /**
@@ -24,7 +28,7 @@ function(RectangleRenderer)
    */
   WormRenderer.prototype.render = function(ctx)
   {
-    this.worm.wormParts.forEach(function(rect)
+    this.getWorldObject().wormParts.forEach(function(rect)
     {
       new RectangleRenderer(rect).render(ctx);
     });
