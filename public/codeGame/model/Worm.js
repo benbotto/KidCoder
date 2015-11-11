@@ -41,10 +41,10 @@ function(TICK_TIME, BLOCK_SIZE, BOARD_WIDTH, BOARD_HEIGHT, WorldObject, Rectangl
     // The worm is composed of a series of rectangles.
     this.wormParts =
     [
-      new Rectangle({x: x, y: y + BLOCK_SIZE * 0, width: BLOCK_SIZE, height: BLOCK_SIZE, color: 'green'}),
-      new Rectangle({x: x, y: y + BLOCK_SIZE * 1, width: BLOCK_SIZE, height: BLOCK_SIZE, color: 'red'}),
-      new Rectangle({x: x, y: y + BLOCK_SIZE * 2, width: BLOCK_SIZE, height: BLOCK_SIZE, color: 'red'}),
-      new Rectangle({x: x, y: y + BLOCK_SIZE * 3, width: BLOCK_SIZE, height: BLOCK_SIZE, color: 'red'})
+      new Rectangle({name: 'wp0', x: x, y: y + BLOCK_SIZE * 0, width: BLOCK_SIZE, height: BLOCK_SIZE, color: 'green'}),
+      new Rectangle({name: 'wp1', x: x, y: y + BLOCK_SIZE * 1, width: BLOCK_SIZE, height: BLOCK_SIZE, color: 'red'}),
+      new Rectangle({name: 'wp2', x: x, y: y + BLOCK_SIZE * 2, width: BLOCK_SIZE, height: BLOCK_SIZE, color: 'red'}),
+      new Rectangle({name: 'wp3', x: x, y: y + BLOCK_SIZE * 3, width: BLOCK_SIZE, height: BLOCK_SIZE, color: 'red'})
     ];
 
     WorldObject.call(this, {name: 'worm'});
@@ -155,12 +155,35 @@ function(TICK_TIME, BLOCK_SIZE, BOARD_WIDTH, BOARD_HEIGHT, WorldObject, Rectangl
    */
   Worm.prototype.grow = function()
   {
-    var part = new Rectangle({width: BLOCK_SIZE, height: BLOCK_SIZE, color: 'red'});
+    var name = 'wp' + this.wormParts.length;
+    var part = new Rectangle({name: name, width: BLOCK_SIZE, height: BLOCK_SIZE, color: 'red'});
 
     // Add the new worm part on top of the end part.  On the next translate
     // call the part will snake along with the rest.
     part.setTransform(this.wormParts[this.wormParts.length - 1].getTransform());
     this.wormParts.push(part);
+    return this;
+  };
+
+  /**
+   * Check if the Worm collides with itself.  If not, use the default check.
+   * @param wo The other WorldObject, which may be this.
+   */
+  Worm.prototype.collidesWith = function(wo)
+  {
+    if (this === wo)
+    {
+      var head = this.wormParts[0];
+
+      for (var i = 1; i < this.wormParts.length; ++i)
+      {
+        // Head hits some part of the tail.
+        if (head.overlaps(this.wormParts[i]))
+          return true;
+      }
+    }
+
+    return WorldObject.prototype.collidesWith.call(this, wo);
   };
 
   return Worm;

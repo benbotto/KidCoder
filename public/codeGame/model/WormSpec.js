@@ -145,5 +145,30 @@ describe('Worm test suite.', function()
     // along after the next translate.
     expect(worm.wormParts[4].getTransform()).toEqual(worm.wormParts[3].getTransform());
   });
+
+  // Checks that a worm can collide with itself.
+  it('checks that a worm can collide with itself.', function()
+  {
+    worm.grow();
+    worm.setHeading('up');
+    worm.tick(500);
+    expect(worm.collidesWith(worm)).toBe(false);
+
+    worm.setHeading('right');
+    worm.tick(500);
+    expect(worm.collidesWith(worm)).toBe(false);
+
+    worm.setHeading('down');
+    worm.tick(500);
+    expect(worm.collidesWith(worm)).toBe(false);
+
+    worm.setHeading('left');
+    worm.tick(500);
+
+    // The worm has now done a circle and has hit its tail.
+    expect(worm.wormParts[0].getTop()).toBe(worm.wormParts[4].getTop());
+    expect(worm.wormParts[0].getLeft()).toBe(worm.wormParts[4].getLeft());
+    expect(worm.collidesWith(worm)).toBe(true);
+  });
 });
 
