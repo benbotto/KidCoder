@@ -121,11 +121,25 @@ describe('WorldObject test suite.', function()
 
   describe('WorldObject collision test suite.', function()
   {
-    var Rectangle;
+    var BoundedWO;
 
-    beforeEach(inject(function(_Rectangle_)
+    beforeEach(inject(function(Rectangle, WorldObject)
     {
-      Rectangle = _Rectangle_;
+      BoundedWO = function(settings)
+      {
+        this.wb = new Rectangle({width: 10, height: 10});
+        WorldObject.call(this, settings);
+      };
+
+      // BoundedWO extends WorldObject.
+      BoundedWO.prototype = Object.create(WorldObject.prototype);
+      BoundedWO.prototype.constructor = BoundedWO;
+
+      // Mock getWorldBounds impl.
+      BoundedWO.prototype.getWorldBounds = function()
+      {
+        return this.wb;
+      };
     }));
 
     // Checks that a WorldObject does not collide with itself by default.
@@ -138,12 +152,12 @@ describe('WorldObject test suite.', function()
     // Checks the collision handling with a Rectangle WorldObject.
     it('checks the collision handling with a Rectangle WorldObject.', function()
     {
-      var r1 = new Rectangle({width: 10, height: 10, x: 10, y: 10});
-      var r2 = new Rectangle({width: 10, height: 10, x: 15, y: 15});
+      var r1 = new BoundedWO({name: 'wo1', width: 10, height: 10, x: 10, y: 10});
+      var r2 = new BoundedWO({name: 'wo2', width: 10, height: 10, x: 15, y: 15});
 
       expect(r1.collidesWith(r2)).toBe(true);
 
-      r2 = new Rectangle({width: 10, height: 10, x: 21, y: 15});
+      r2 = new BoundedWO({name: 'wo3', width: 10, height: 10, x: 21, y: 15});
       expect(r1.collidesWith(r2)).toBe(false);
     });
   });

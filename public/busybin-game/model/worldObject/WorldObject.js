@@ -105,7 +105,7 @@ function(mat3, vec2)
   {
     if (this === wo)
       return false;
-    return this.overlaps(wo.getWorldBounds());
+    return this.getWorldBounds().overlaps(wo.getWorldBounds());
   };
 
   return WorldObject;
