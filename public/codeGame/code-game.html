@@ -6,8 +6,10 @@
   <button ng-click="game.start()">Play</button>
   <button ng-click="game.pause()">Pause</button>
 
-  <button ng-click="game.gameWorld.getWorldObject('worm').setHeading('left')">Left</button>
-  <button ng-click="game.gameWorld.getWorldObject('worm').setHeading('up')">Up</button>
-  <button ng-click="game.gameWorld.getWorldObject('worm').setHeading('down')">Down</button>
-  <button ng-click="game.gameWorld.getWorldObject('worm').setHeading('right')">Right</button>
+  <div class="move-buttons">
+    <button class="move-button up" ng-click="game.gameWorld.getWorldObject('worm').setHeading('up')">&#8593;</button>
+    <button class="move-button left" ng-click="game.gameWorld.getWorldObject('worm').setHeading('left')">&#8592;</button>
+    <button class="move-button right" ng-click="game.gameWorld.getWorldObject('worm').setHeading('right')">&#8594;</button>
+    <button class="move-button down" ng-click="game.gameWorld.getWorldObject('worm').setHeading('down')">&#8595;</button>
+  </div>
 </div>

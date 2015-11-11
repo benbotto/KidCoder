@@ -8,3 +8,34 @@ canvas
   display: inline-block;
   vertical-align: top;
 }
+
+.move-buttons
+{
+  font-size: 0;
+}
+
+.move-button
+{
+  width: 100px;
+  height: 100px;
+  font-size: 50pt;
+  display: block;
+}
+
+.move-button.up,
+.move-button.down
+{
+  margin-left: 100px;
+}
+
+.move-button.left,
+.move-button.right
+{
+  display: inline-block;
+}
+
+.move-button.right
+{
+  margin-left: 100px;
+}
+
