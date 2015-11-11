@@ -1,10 +1,13 @@
-<bsy-game-renderer width="game.gameWorld.width" height="game.gameWorld.height"
+<bsy-game-renderer
+  width="game.gameWorld.width"
+  height="game.gameWorld.height"
   renderers="game.renderers">
 </bsy-game-renderer>
 
 <div class="game-controls">
-  <button ng-click="game.start()">Play</button>
-  <button ng-click="game.pause()">Pause</button>
+  <button ng-click="game.start()" ng-disabled="game.getState() == 'game over' || game.getState() == 'playing'">Play</button>
+  <button ng-click="game.pause()" ng-disabled="game.getState() == 'game over' || game.getState() == 'paused'">Pause</button>
+  <button ng-click="restart()">Restart</button>
 
   <div class="move-buttons">
     <button class="move-button up" ng-click="game.gameWorld.getWorldObject('worm').setHeading('up')">&#8593;</button>

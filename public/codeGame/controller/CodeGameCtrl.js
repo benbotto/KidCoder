@@ -9,7 +9,12 @@ function($scope, TICK_TIME, KidCoderGame, GameTimer)
 {
   'use strict';
 
-  $scope.game = new KidCoderGame();
-  new GameTimer(TICK_TIME, $scope.game);
+  $scope.restart = function()
+  {
+    $scope.game = new KidCoderGame();
+    new GameTimer(TICK_TIME, $scope.game);
+  };
+
+  $scope.restart();
 }]);
 
