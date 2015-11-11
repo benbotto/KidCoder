@@ -7,7 +7,6 @@ describe('Worm test suite.', function()
   beforeEach(module('bsyKidCoder'));
   beforeEach(module(function($provide)
   {
-    $provide.value('TICK_TIME',    500);
     $provide.value('BLOCK_SIZE',   10);
     $provide.value('BOARD_WIDTH',  500);
     $provide.value('BOARD_HEIGHT', 500);
@@ -23,7 +22,6 @@ describe('Worm test suite.', function()
     var y;
     var width = worm.wormParts[0].width;
 
-    expect(worm.speed).toBe(20);
     expect(worm.name).toBe('worm');
     expect(worm.getWorldBounds().getLeft()).toBe(250);
     expect(worm.getWorldBounds().getTop()).toBe(250);
@@ -61,30 +59,27 @@ describe('Worm test suite.', function()
   it('makes sure that the worm moves on tick.', function()
   {
     worm.setHeading('up');
-    worm.tick(500);
+    worm.tick();
     expect(worm.getWorldBounds().getLeft()).toBe(250);
     expect(worm.getWorldBounds().getTop()).toBe(240);
 
     worm.setHeading('left');
-    worm.tick(250); // Time delta too small - no movement.
-    expect(worm.getWorldBounds().getLeft()).toBe(250);
-    expect(worm.getWorldBounds().getTop()).toBe(240);
-    worm.tick(250);
+    worm.tick();
     expect(worm.getWorldBounds().getLeft()).toBe(240);
     expect(worm.getWorldBounds().getTop()).toBe(240);
 
     worm.setHeading('down');
-    worm.tick(500);
+    worm.tick();
     expect(worm.getWorldBounds().getLeft()).toBe(240);
     expect(worm.getWorldBounds().getTop()).toBe(250);
 
     worm.setHeading('right');
-    worm.tick(500);
+    worm.tick();
     expect(worm.getWorldBounds().getLeft()).toBe(250);
     expect(worm.getWorldBounds().getTop()).toBe(250);
 
     worm.setHeading('none');
-    worm.tick(500);
+    worm.tick();
     expect(worm.getWorldBounds().getLeft()).toBe(250);
     expect(worm.getWorldBounds().getTop()).toBe(250);
   });
@@ -151,19 +146,19 @@ describe('Worm test suite.', function()
   {
     worm.grow();
     worm.setHeading('up');
-    worm.tick(500);
+    worm.tick();
     expect(worm.collidesWith(worm)).toBe(false);
 
     worm.setHeading('right');
-    worm.tick(500);
+    worm.tick();
     expect(worm.collidesWith(worm)).toBe(false);
 
     worm.setHeading('down');
-    worm.tick(500);
+    worm.tick();
     expect(worm.collidesWith(worm)).toBe(false);
 
     worm.setHeading('left');
-    worm.tick(500);
+    worm.tick();
 
     // The worm has now done a circle and has hit its tail.
     expect(worm.wormParts[0].getTop()).toBe(worm.wormParts[4].getTop());

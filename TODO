@@ -1,2 +1,1 @@
 Do collision checking in KidCoderGame.tick()
-Need a game timer instead of ticking in the controller.  The tick is untested (although trivial).

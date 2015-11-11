@@ -29,12 +29,7 @@ describe('bsyGameRenderer test suite.', function()
 
     var gameRendEle = $compile
     (
-      '<bsy-game-renderer ' +
-      '  width="width" ' +
-      '  height="height" ' +
-      '  get-elapsed="getElapsed()" ' +
-      '  renderers="renderers">' +
-      '</bsy-game-renderer>'
+      '<bsy-game-renderer width="width" height="height" renderers="renderers"></bsy-game-renderer>'
     )(scope);
 
     iScope = gameRendEle.isolateScope();
@@ -46,16 +41,6 @@ describe('bsyGameRenderer test suite.', function()
     expect(iScope.width).toBe(500);
     expect(iScope.height).toBe(600);
     expect(iScope.renderers.length).toBe(2);
-    expect(iScope.getElapsed).toBeDefined();
-  });
-
-  // Checks that ticking the game causes the renderers to render.
-  it('checks that ticking the game causes the renderers to render.', function()
-  {
-    scope.tick();
-    scope.$digest();
-    expect(scope.renderers[0].render.calls.count()).toBe(1);
-    expect(scope.renderers[1].render.calls.count()).toBe(1);
   });
 });
 

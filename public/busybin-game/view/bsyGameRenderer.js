@@ -16,8 +16,7 @@ function($window)
     {
       renderers:  '=',
       width:      '=',
-      height:     '=',
-      getElapsed: '&'
+      height:     '='
     },
     link: function(scope, ele)
     {
@@ -44,10 +43,12 @@ function($window)
         {
           renderer.render(ctx);
         });
+
+        $window.requestAnimationFrame(render);
       }
 
-      // Every time the game ticks (elapsed time changes) render the world.
-      scope.$watch(scope.getElapsed, render);
+      // Redraw using the computer's refresh rate.
+      $window.requestAnimationFrame(render);
     }
   };
 

@@ -4,8 +4,8 @@ angular.module('bsyKidCoder')
  * The worm object.
  */
 .factory('Worm',
-['TICK_TIME', 'BLOCK_SIZE', 'BOARD_WIDTH', 'BOARD_HEIGHT', 'WorldObject', 'Rectangle',
-function(TICK_TIME, BLOCK_SIZE, BOARD_WIDTH, BOARD_HEIGHT, WorldObject, Rectangle)
+['BLOCK_SIZE', 'BOARD_WIDTH', 'BOARD_HEIGHT', 'WorldObject', 'Rectangle',
+function(BLOCK_SIZE, BOARD_WIDTH, BOARD_HEIGHT, WorldObject, Rectangle)
 {
   'use strict';
 
@@ -33,10 +33,7 @@ function(TICK_TIME, BLOCK_SIZE, BOARD_WIDTH, BOARD_HEIGHT, WorldObject, Rectangl
     while (x < BOARD_WIDTH  / 2) x += BLOCK_SIZE;
     while (y < BOARD_HEIGHT / 2) y += BLOCK_SIZE;
 
-    // Move 1 block size per tick.
-    this.speed     = BLOCK_SIZE / (TICK_TIME / 1000);
-    this._heading  = Worm.HEADING.UP;
-    this._moveTime = 0;
+    this._heading = Worm.HEADING.UP;
 
     // The worm is composed of a series of rectangles.
     this.wormParts =
@@ -93,33 +90,23 @@ function(TICK_TIME, BLOCK_SIZE, BOARD_WIDTH, BOARD_HEIGHT, WorldObject, Rectangl
 
   /**
    * On tick, move the worm.
-   * @param elapsed The elapsed time, in ms, since the last tick.
    */
-  Worm.prototype.tick = function(elapsed)
+  Worm.prototype.tick = function()
   {
-    // Only move 1 per half second.
-    this._moveTime += elapsed;
-    if (this._moveTime < TICK_TIME) return;
-    this._moveTime = 0;
-
-    // The speed is in units per second.  Calculate the delta based on
-    // the elapsed time.
-    var moveDelta = this.speed / 1000 * TICK_TIME;
-
-    // Move in the correct direction.
+    // Move in the correct direction, 1 block per tick.
     switch (this._heading)
     {
       case Worm.HEADING.UP:
-        this.translate(0, -moveDelta);
+        this.translate(0, -BLOCK_SIZE);
         break;
       case Worm.HEADING.LEFT:
-        this.translate(-moveDelta, 0);
+        this.translate(-BLOCK_SIZE, 0);
         break;
       case Worm.HEADING.DOWN:
-        this.translate(0, moveDelta);
+        this.translate(0, BLOCK_SIZE);
         break;
       case Worm.HEADING.RIGHT:
-        this.translate(moveDelta, 0);
+        this.translate(BLOCK_SIZE, 0);
         break;
       case Worm.HEADING.NONE:
         break;

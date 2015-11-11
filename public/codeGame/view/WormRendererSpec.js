@@ -10,7 +10,6 @@ describe('WormRenderer test suite.', function()
   {
     RectangleRenderer.prototype.render = jasmine.createSpy('render');
 
-    $provide.value('TICK_TIME',         500);
     $provide.value('BLOCK_SIZE',        10);
     $provide.value('BOARD_WIDTH',       500);
     $provide.value('BOARD_HEIGHT',      500);
